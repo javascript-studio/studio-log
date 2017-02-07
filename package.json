@@ -1,0 +1,45 @@
+{
+  "name": "@studio/log",
+  "version": "0.0.0",
+  "description": "A tiny JSON logger with emoji support",
+  "bin": {
+    "emojilog": "bin/emojilog.js"
+  },
+  "main": "lib/log.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "mocha",
+    "watch": "mocha --watch",
+    "posttest": "npm run lint",
+    "preversion": "npm test",
+    "version": "changes",
+    "postversion": "git push --follow-tags && npm publish"
+  },
+  "keywords": [
+    "log",
+    "emoji",
+    "json"
+  ],
+  "author": "Maximilian Antoni <max@javascript.studio>",
+  "homepage": "https://github.com/javascript-studio/studio-log",
+  "eslintConfig": {
+    "extends": "@studio"
+  },
+  "devDependencies": {
+    "@studio/eslint-config": "^1.0.0",
+    "eslint": "^3.14.1",
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/javascript-studio/studio-log.git"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT"
+}
