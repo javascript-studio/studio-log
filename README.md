@@ -57,26 +57,26 @@ and filter logs. Unlike log levels, topics are not ordered by severity.
 
 These topics are available:
 
-- `ok`: ✅
-- `warn`: ⚠️
-- `issue`: 🐛
-- `error`: 🚨
-- `ignore`: 🙈
-- `input`: 🔺
-- `output`: 🔻
-- `send`: 📤
-- `receive`: 📥
-- `fetch`: 📡
-- `finish`: 🏁
-- `launch`: 🚀
-- `terminate`: ⛔️
-- `spawn`: ✨
-- `broadcast`: 📣
-- `disk`: 💾
-- `timing`: ⏱`
-- `money`: 💰
-- `numbers`: 🔢
-- `wtf`: 👻
+- ✅ = `ok`
+- ⚠️ = `warn`
+- 🐛 = `issue`
+- 🚨 = `error`
+- 🙈 = `ignore`
+- 🔺 = `input`
+- 🔻 = `output`
+- 📤 = `send`
+- 📥 = `receive`
+- 📡 = `fetch`
+- 🏁 = `finish`
+- 🚀 = `launch`
+- ⛔️ = `terminate`
+- ✨ = `spawn`
+- 📣 = `broadcast`
+- 💾 = `disk`
+- ⏱  = `timing`
+- 💰 = `money`
+- 🔢 = `numbers`
+- 👻 = `wtf`
 
 ## Format Transforms
 
