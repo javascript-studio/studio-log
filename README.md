@@ -81,7 +81,7 @@ These topics are available:
 ## Format Transforms
 
 The following transform streams are bundled with `@studio/log`, but have to be
-required separately and installed by calling the factory function:
+required separately:
 
 ```js
 const formatter = require('@studio/log/format/basic');
@@ -95,10 +95,27 @@ logger.transform(formatter({ ts: false }));
 
 These formatting rules are applied by naming conventions:
 
-- `ts` or prefix `ts\_` formats a timestamp as "2017-02-08T07:27:49.774Z".
-- `ms` or prefix `ms\_` formats a millisecond value.
-- `bytes` or prefix `bytes\_` formats a byte value.
+- `ts` or prefix `ts_` formats a timestamp as "2017-02-08T07:27:49.774Z".
+- `ms` or prefix `ms_` formats a millisecond value.
+- `bytes` or prefix `bytes_` formats a byte value.
 - `topic` is replaced with the corresponding emoji.
+
+These options can be passed to change what is shown:
+
+- `ts: false` hide timestamps
+- `topic: false` hide topics
+- `ns: false` hide namespaces
+- `data: false` hide data
+- `stack: false` hide stacks
+
+## CLI Options
+
+- `--format` or `-f`: Set the formatter to use. Defaults to "fancy".
+- `--no-ts`: hide timestamps
+- `--no-topic` hide topics
+- `--no-ns` hide namespaces
+- `--no-data` hide data
+- `--no-stack` hide stacks
 
 ## License
 
