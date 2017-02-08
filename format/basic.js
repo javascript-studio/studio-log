@@ -34,7 +34,9 @@ module.exports = function ({
       if (data && entry.data) {
         for (const key in entry.data) {
           if (entry.data.hasOwnProperty(key)) {
-            parts.push(value_format(key, entry.data[key]));
+            const value = entry.data[key];
+            const [k, v, unit] = value_format(key, value, JSON.stringify);
+            parts.push(k ? `${k}=${v}${unit}` : `${v}${unit}`);
           }
         }
       }

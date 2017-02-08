@@ -35,14 +35,14 @@ describe('value-format', () => {
     log.spawn('Data', { ts: 456 });
 
     assert.equal(out, '1970-01-01T00:00:00.123Z ✨  [test] Data '
-      + '1970-01-01T00:00:00.456Z\n');
+      + '"1970-01-01T00:00:00.456Z"\n');
   });
 
   it('formats "ts_foo" property in data', () => {
     log.spawn('Data', { ts_foo: 456 });
 
     assert.equal(out, '1970-01-01T00:00:00.123Z ✨  [test] Data '
-      + 'foo=1970-01-01T00:00:00.456Z\n');
+      + 'foo="1970-01-01T00:00:00.456Z"\n');
   });
 
   it('formats "ms" property in data', () => {
