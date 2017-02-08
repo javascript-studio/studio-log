@@ -51,13 +51,20 @@ describe('logger', () => {
       + `"stack":${JSON.stringify(error.stack)}}\n`);
   });
 
-  it('logs data and error', () => {
+  it('logs data and error object', () => {
     const error = new Error('Ouch!');
 
     log.issue('Found', { some: 'issue' }, error);
 
     assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)}}\n`);
+  });
+
+  it('logs data and error string', () => {
+    log.issue('Found', { some: 'issue' }, 'Ouch!');
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
+      + '"data":{"some":"issue"},"stack":"Ouch!"}\n');
   });
 
   it('mutes a namespace', () => {

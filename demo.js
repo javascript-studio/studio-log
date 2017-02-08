@@ -12,6 +12,7 @@ const log = logger('Studio');
 log.ok('Hello emoji log!');
 log.warn('This might come at a surprise', { ms_timeout: 15000 });
 log.error('Shit happens', new Error('Oh noes!'));
+log.error('Or just a string', {}, 'Oh noes!');
 log.issue('This might be an issue', { ms_slow: 567 });
 log.ignore('Yeah, whaterver ...', { some: 'random stuff' });
 log.input('Input received', { headers: { 'Content-Length': 12 } });

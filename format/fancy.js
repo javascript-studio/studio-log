@@ -38,9 +38,12 @@ function stringify(value) {
 function formatStack(stack) {
   const p = stack.indexOf('\n');
   const first_line = p === -1 ? stack : stack.substring(0, p);
-  // eslint-disable-next-line prefer-template
-  return chalk.bgRed.white.bold(first_line) + '\n'
-    + chalk.gray(stack.substring(p + 1));
+  const formatted = chalk.bgRed.white.bold(first_line);
+  if (p === -1) {
+    return formatted;
+  }
+  const remainder = chalk.gray(stack.substring(p + 1));
+  return `${formatted}\n${remainder}`;
 }
 
 module.exports = function ({
