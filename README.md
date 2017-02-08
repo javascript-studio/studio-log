@@ -46,11 +46,8 @@ $ node app.js | emojilog
 - `logger.out(stream)`: Configure the output stream to write logs to. Defaults
   to `process.stdout`.
 - `logger.transform(stream)`: Configure a transform stream to format logs. The
-  given stream must be in `objectMode`.
-- `logger.basic()`: Returns a transform stream in `objectMode` that applies
-  basic formatting and serializes the data object.
-- `logger.fancy()`: Returns a transform stream in `objectMode` that formats
-  logs for the command line with colors as specified below.
+  given stream must be in `objectMode`. See "Format Transforms" section further
+  down. The default transform simply stringifies the entry and append a newline.
 - `logger.reset()`: Resets everything to the defaults.
 
 ## Topics
@@ -81,15 +78,27 @@ These topics are available:
 - `numbers`: 🔢
 - `wtf`: 👻
 
-## Formatting
+## Format Transforms
+
+The following transform streams are bundled with `@studio/log`, but have to be
+required separately and installed by calling the factory function:
+
+```js
+const formatter = require('@studio/log/format/basic');
+
+logger.transform(formatter({ ts: false }));
+```
+
+- `basic`: Basic formatting as specified below.
+- `fancy`: Colored output for the console. This is the default formatter when
+  using the `emojilog` CLI.
 
 These formatting rules are applied by naming conventions:
 
 - `ts` or prefix `ts\_` formats a timestamp as "2017-02-08T07:27:49.774Z".
-- `ms` or prefix `ms\_` formats a millisecond interval as "1.23s".
-- `topic` must be one of the log topics and is replaced with the corresponding
-  emoji.
-- `stack` is expected to be a multi-line string and is indented.
+- `ms` or prefix `ms\_` formats a millisecond value.
+- `bytes` or prefix `bytes\_` formats a byte value.
+- `topic` is replaced with the corresponding emoji.
 
 ## License
 
