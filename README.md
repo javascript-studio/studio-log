@@ -19,6 +19,15 @@ If you install this module globally (`npm install @studio/log -g`), the
 $ node app.js | emojilog
 ```
 
+## Philosophy
+
+- Work with object streams internally to avoid unnecessary serialization &
+  parsing when using in a command line application.
+- API designed to produce expressive source code.
+- Use topics instead of log levels. This allow more fine grained filtering and
+  more expressive display.
+- Fancy formats with emoji for log file reading pleasure.
+
 ## API
 
 - `log = logger(ns)`: Creates a new logger with the given namespace. The
@@ -36,12 +45,18 @@ $ node app.js | emojilog
 - `logger.muteAll(topic)`: Mute the given topic in all namespaces.
 - `logger.out(stream)`: Configure the output stream to write logs to. Defaults
   to `process.stdout`.
-- `logger.basic()`: Returns a transform stream that applies basic formatting
-  and serializes the data object.
-- `logger.fancy()`: Returns a transform stream that formats logs for the
-  command line with colors as specified below.
+- `logger.transform(stream)`: Configure a transform stream to format logs. The
+  given stream must be in `objectMode`.
+- `logger.basic()`: Returns a transform stream in `objectMode` that applies
+  basic formatting and serializes the data object.
+- `logger.fancy()`: Returns a transform stream in `objectMode` that formats
+  logs for the command line with colors as specified below.
+- `logger.reset()`: Resets everything to the defaults.
 
 ## Topics
+
+Instead of log levels, this logger uses a set of topics to categorize, format
+and filter logs. Unlike log levels, topics are not ordered by severity.
 
 These topics are available:
 
