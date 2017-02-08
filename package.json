@@ -38,6 +38,7 @@
   "files": [
     "bin",
     "lib",
+    "format",
     "LICENSE",
     "README.md"
   ],
