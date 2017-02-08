@@ -11,8 +11,8 @@ const topics = require('../lib/topics');
 const value_format = require('../lib/value-format');
 
 function stringify(value) {
-  if (value === null) {
-    return chalk.bold('null');
+  if (value === null || value === undefined) {
+    return chalk.bold(String(value));
   }
   const type = typeof value;
   if (type === 'string') {
