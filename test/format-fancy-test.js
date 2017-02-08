@@ -76,7 +76,7 @@ describe('format-fancy', () => {
       + `${chalk.yellow('7')}${chalk.magenta('}')}\n`);
   });
 
-  it('formats date', () => {
+  it('formats msg and date', () => {
     log.broadcast('Data', { date: new Date() });
 
     assert.equal(out, `${local_time} 📣  ${namespace} Data `
@@ -84,7 +84,15 @@ describe('format-fancy', () => {
       + `${chalk.green('\'1970-01-01T00:00:00.123Z\'')}\n`);
   });
 
-  it('formats error', () => {
+  it('formats just date', () => {
+    log.broadcast({ date: new Date() });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} `
+      + `${chalk.bold('date')}=`
+      + `${chalk.green('\'1970-01-01T00:00:00.123Z\'')}\n`);
+  });
+
+  it('formats msg and error', () => {
     const error = new Error('Ouch!');
 
     log.error('Oups', error);
@@ -94,6 +102,18 @@ describe('format-fancy', () => {
     const actual_first_line = out.substring(0, out.indexOf('\n'));
     assert.equal(actual_first_line, `${local_time} 🚨  `
       + `${namespace} Oups ${chalk.bgRed.white.bold(expect_first_line)}`);
+  });
+
+  it('formats just error', () => {
+    const error = new Error('Ouch!');
+
+    log.error(error);
+
+    const p = error.stack.indexOf('\n');
+    const expect_first_line = error.stack.substring(0, p);
+    const actual_first_line = out.substring(0, out.indexOf('\n'));
+    assert.equal(actual_first_line, `${local_time} 🚨  `
+      + `${namespace} ${chalk.bgRed.white.bold(expect_first_line)}`);
   });
 
   describe('units', () => {

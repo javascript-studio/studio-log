@@ -37,19 +37,35 @@ describe('format-basic', () => {
     assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] Oh, hi!\n');
   });
 
-  it('formats data', () => {
+  it('formats msg and data', () => {
     log.broadcast('Data', { some: 'string', and: 42 });
 
     assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] Data '
       + 'some="string" and=42\n');
   });
 
-  it('formats error', () => {
+  it('formats just data', () => {
+    log.broadcast({ some: 'string', and: 42 });
+
+    assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] '
+      + 'some="string" and=42\n');
+  });
+
+  it('formats msg and error', () => {
     const error = new Error('Ouch!');
 
     log.error('Oups', error);
 
     assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] Oups '
+      + `${error.stack}\n`);
+  });
+
+  it('formats just error', () => {
+    const error = new Error('Ouch!');
+
+    log.error(error);
+
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
       + `${error.stack}\n`);
   });
 

@@ -123,4 +123,33 @@ describe('logger', () => {
     assert.strictEqual(a, b);
   });
 
+  it('logs only data', () => {
+    log.fetch({ host: 'javascript.studio', path: '/' });
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"fetch","data":'
+      + '{"host":"javascript.studio","path":"/"}}\n');
+  });
+
+  it('logs only data and error', () => {
+    log.issue({ id: 'studio' }, 'Oh!');
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","data":'
+      + '{"id":"studio"},"stack":"Oh!"}\n');
+  });
+
+  it('logs only error', () => {
+    const error = new Error('Ouch');
+
+    log.error(error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+      + `"stack":${JSON.stringify(error.stack)}}\n`);
+  });
+
+  it('logs only meta data', () => {
+    log.timing();
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"timing"}\n');
+  });
+
 });

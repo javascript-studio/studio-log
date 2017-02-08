@@ -31,7 +31,7 @@ $ node app.js | emojilog
 
 - `log = logger(ns)`: Creates a new logger with the given namespace. The
   namespace is added to each log entry as the `ns` property.
-- `log.{topic}(message[, data][, error])`: Create a new log entry with these
+- `log.{topic}([message][, data][, error])`: Create a new log entry with these
   properties:
     - `ns`: The logger instance namespace.
     - `ts`: The timestamp as returned by `Date.now()`.

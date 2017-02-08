@@ -69,7 +69,9 @@ module.exports = function ({
       if (ns) {
         parts.push(chalk.blue(entry.ns));
       }
-      parts.push(entry.msg);
+      if (entry.msg) {
+        parts.push(entry.msg);
+      }
       if (data && entry.data) {
         for (const key in entry.data) {
           if (entry.data.hasOwnProperty(key)) {
