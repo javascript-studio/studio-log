@@ -116,4 +116,11 @@ describe('logger', () => {
     ]);
   });
 
+  it('returns same instance when requesting the same logger twice', () => {
+    const a = logger('foo');
+    const b = logger('foo');
+
+    assert.strictEqual(a, b);
+  });
+
 });
