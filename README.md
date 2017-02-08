@@ -19,14 +19,13 @@ If you install this module globally (`npm install @studio/log -g`), the
 $ node app.js | emojilog
 ```
 
-## Philosophy
+## Features
 
-- Work with object streams internally to avoid unnecessary serialization &
-  parsing when using in a command line application.
-- API designed to produce expressive source code.
-- Use topics instead of log levels. This allow more fine grained filtering and
-  more expressive display.
 - Fancy formats with emoji for log file reading pleasure.
+- API designed to produce expressive source code.
+- Uses topics instead of log levels for more fine grained filtering.
+- Uses object streams to avoid serialize -> parse -> serialize when used in a
+  command line application.
 
 ## API
 
