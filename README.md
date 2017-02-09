@@ -1,6 +1,16 @@
-# Tiny JSON logger with ❤️
+# Tiny JSON logger with 📣
 
 Log [ndjson][1] to an output stream with emoji ✨
+
+<img src="emojilog.png">
+
+## Features
+
+- Fancy formats with emoji for log file reading pleasure.
+- API designed to produce expressive source code.
+- Uses topics instead of log levels for more fine grained filtering.
+- Uses object streams to avoid serialize -> parse -> serialize when used in a
+  command line application.
 
 ## Usage
 
@@ -18,14 +28,6 @@ If you install this module globally (`npm install @studio/log -g`), the
 ```bash
 $ node app.js | emojilog
 ```
-
-## Features
-
-- Fancy formats with emoji for log file reading pleasure.
-- API designed to produce expressive source code.
-- Uses topics instead of log levels for more fine grained filtering.
-- Uses object streams to avoid serialize -> parse -> serialize when used in a
-  command line application.
 
 ## API
 
