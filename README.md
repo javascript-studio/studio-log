@@ -96,10 +96,9 @@ logger.transform(formatter({ ts: false }));
 
 These formatting rules are applied by naming conventions:
 
-- `ts` or prefix `ts_` formats a timestamp as "2017-02-08T07:27:49.774Z".
+- `ts` or prefix `ts_` formats a timestamp.
 - `ms` or prefix `ms_` formats a millisecond value.
 - `bytes` or prefix `bytes_` formats a byte value.
-- `topic` is replaced with the corresponding emoji.
 
 These options can be passed to change what is shown:
 
