@@ -79,39 +79,6 @@ These topics are available:
 - 🔢 = `numbers`
 - 👻 = `wtf`
 
-## Format Transforms
-
-The following transform streams are bundled with `@studio/log`, but have to be
-required separately:
-
-```js
-const formatter = require('@studio/log/format/basic');
-
-logger.transform(formatter({ ts: false }));
-```
-
-- `basic`: Basic formatting as specified below.
-- `fancy`: Colored output for the console. This is the default formatter when
-  using the `emojilog` CLI.
-
-These formatting rules are applied by naming conventions:
-
-- `ts` or prefix `ts_` formats a timestamp.
-- `ms` or prefix `ms_` formats a millisecond value.
-- `bytes` or prefix `bytes_` formats a byte value.
-
-These options can be passed to change what is shown:
-
-- `ts: false` hide timestamps
-- `topic: false` hide topics
-- `ns: false` hide namespaces
-- `data: false` hide data
-- `stack: style` with these stack styles:
-    - `false: hide the error entirely
-    - `message` only show the error message
-    - `peek` show the message and the first line of the trace (default)
-    - `full` show the message and the full trace
-
 ## CLI Options
 
 - `--format` or `-f`: Set the formatter to use. Defaults to "fancy".
@@ -125,6 +92,60 @@ These options can be passed to change what is shown:
 - `--stack full` show the message and the full trace
 - `--stack` same as `--stack full`
 
+## Format Transforms
+
+Install a transform stream if you want to use `@sstudio/log` in a command line
+application. The bundled transform streams have to be required separately:
+
+```js
+const formatter = require('@studio/log/format/basic');
+
+logger.transform(formatter({ ts: false }));
+```
+
+The following transform streams are available:
+
+- `basic`: Basic formatting with ISO dates and no colors
+- `fancy`: Colored output with localized dates. This is the default formatter
+  when using the `emojilog` CLI.
+
+Some advanced formatting is applied by naming conventions on top level
+properties of the `data` object. See [demo.js][2] for some examples.
+
+- `ts` or prefix `ts_` formats a timestamp.
+- `ms` or prefix `ms_` formats a millisecond value.
+- `bytes` or prefix `bytes_` formats a byte value.
+
+These options can be passed to the bundled format transforms:
+
+- `ts: false` hide timestamps
+- `topic: false` hide topics
+- `ns: false` hide namespaces
+- `data: false` hide data
+- `stack: style` with these stack styles:
+    - `false: hide the error entirely
+    - `message` only show the error message
+    - `peek` show the message and the first line of the trace (default)
+    - `full` show the message and the full trace
+
+## Custom Format Transforms
+
+Format transforms are [node transform streams][3] in `writableObjectMode`. This
+is the default transform implementation used to write [ndjson][1] logs:
+
+```js
+const { Transform } = require('stream');
+
+const ndjson = new Transform({
+  writableObjectMode: true,
+
+  transform(entry, enc, callback) {
+    const str = JSON.stringify(entry);
+    callback(null, `${str}\n`);
+  }
+});
+```
+
 ## License
 
 MIT
@@ -132,3 +153,5 @@ MIT
 <div align="center">Made with ❤️ on 🌍</div>
 
 [1]: http://ndjson.org/
+[2]: https://github.com/javascript-studio/studio-log/blob/master/demo.js
+[3]: https://nodejs.org/api/stream.html#stream_implementing_a_transform_stream
