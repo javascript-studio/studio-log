@@ -22,8 +22,14 @@ const log = logger('app');
 log.launch('my service', { port: 433 });
 ```
 
-If you install this module globally (`npm install @studio/log -g`), the
-`emojilog` command line tool is made available. Use it to format logs:
+The above produces this output:
+
+```json
+{"ts":1486630378584,"ns":"app","topic":"launch","msg":"my service","data":{"port":433}}
+```
+
+Install this module globally (`npm install @studio/log -g`) to get the
+`emojilog` command line tool to format logs:
 
 ```bash
 $ node app.js | emojilog
