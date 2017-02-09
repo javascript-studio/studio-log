@@ -70,8 +70,8 @@ describe('format-fancy', () => {
     log.broadcast('Data', { some: { a: 7 } });
 
     assert.equal(out, `${local_time} 📣  ${namespace} Data `
-      + `${chalk.bold('some')}=${chalk.magenta('{')}a${chalk.magenta(':')} `
-      + `${chalk.yellow('7')}${chalk.magenta('}')}\n`);
+      + `${chalk.bold('some')}=${chalk.magenta('{')} a${chalk.magenta(':')} `
+      + `${chalk.yellow('7')} ${chalk.magenta('}')}\n`);
   });
 
   it('formats msg and date', () => {
