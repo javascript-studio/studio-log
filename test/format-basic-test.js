@@ -52,6 +52,7 @@ describe('format-basic', () => {
   });
 
   it('formats msg and error', () => {
+    logger.transform(format({ stack: 'full' }));
     const error = new Error('Ouch!');
 
     log.error('Oups', error);
@@ -61,12 +62,27 @@ describe('format-basic', () => {
   });
 
   it('formats just error', () => {
+    logger.transform(format({ stack: 'full' }));
     const error = new Error('Ouch!');
 
     log.error(error);
 
     assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
       + `${error.stack}\n`);
+  });
+
+  it('formats error with first line of trace', () => {
+    const error = new Error('Ouch!');
+
+    log.error(error);
+
+    const p1 = error.stack.indexOf('\n');
+    const p2 = error.stack.indexOf('\n', p1 + 1);
+    const message = error.stack.substring(0, p1);
+    const trace = error.stack.substring(p1 + 1, p2).trim();
+
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
+      + `${message} ${trace}\n`);
   });
 
   describe('options', () => {

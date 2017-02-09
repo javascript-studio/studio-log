@@ -93,6 +93,7 @@ describe('format-fancy', () => {
   });
 
   it('formats msg and error', () => {
+    logger.transform(format({ stack: 'message' }));
     const error = new Error('Ouch!');
 
     log.error('Oups', error);
@@ -105,6 +106,7 @@ describe('format-fancy', () => {
   });
 
   it('formats just error', () => {
+    logger.transform(format({ stack: 'message' }));
     const error = new Error('Ouch!');
 
     log.error(error);
@@ -114,6 +116,21 @@ describe('format-fancy', () => {
     const actual_first_line = out.substring(0, out.indexOf('\n'));
     assert.equal(actual_first_line, `${local_time} 🚨  `
       + `${namespace} ${chalk.bgRed.white.bold(expect_first_line)}`);
+  });
+
+  it('formats error with first line of trace', () => {
+    logger.transform(format({ stack: 'peek' }));
+    const error = new Error('Ouch!');
+
+    log.error(error);
+
+    const p1 = error.stack.indexOf('\n');
+    const p2 = error.stack.indexOf('\n', p1 + 1);
+    const message = error.stack.substring(0, p1);
+    const trace = error.stack.substring(p1 + 1, p2).trim();
+    const actual_first_line = out.substring(0, out.indexOf('\n'));
+    assert.equal(actual_first_line, `${local_time} 🚨  `
+      + `${namespace} ${chalk.bgRed.white.bold(message)} ${chalk.gray(trace)}`);
   });
 
   describe('units', () => {

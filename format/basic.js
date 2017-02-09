@@ -9,12 +9,28 @@ const { Transform } = require('stream');
 const topics = require('../lib/topics');
 const value_format = require('../lib/value-format');
 
+function formatStack(style, stack) {
+  if (style === true || style === 'full') {
+    return stack;
+  }
+  const p1 = stack.indexOf('\n');
+  const first_line = p1 === -1 ? stack : stack.substring(0, p1);
+  if (style === 'message' || p1 === -1) {
+    return first_line;
+  }
+  const p2 = stack.indexOf('\n', p1 + 1);
+  const peek = p2 === -1
+    ? stack.substring(p1 + 1)
+    : stack.substring(p1 + 1, p2);
+  return `${first_line} ${peek.trim()}`;
+}
+
 module.exports = function ({
   ts = true,
   topic = true,
   ns = true,
   data = true,
-  stack = true
+  stack = 'peek'
 } = {}) {
   return new Transform({
     writableObjectMode: true,
@@ -43,7 +59,7 @@ module.exports = function ({
         }
       }
       if (stack && entry.stack) {
-        parts.push(entry.stack);
+        parts.push(formatStack(stack, entry.stack));
       }
       const str = parts.join(' ');
       callback(null, `${str}\n`);

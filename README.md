@@ -105,7 +105,11 @@ These options can be passed to change what is shown:
 - `topic: false` hide topics
 - `ns: false` hide namespaces
 - `data: false` hide data
-- `stack: false` hide stacks
+- `stack: style` with these stack styles:
+    - `false: hide the error entirely
+    - `message` only show the error message
+    - `peek` show the message and the first line of the trace (default)
+    - `full` show the message and the full trace
 
 ## CLI Options
 
@@ -115,6 +119,10 @@ These options can be passed to change what is shown:
 - `--no-ns` hide namespaces
 - `--no-data` hide data
 - `--no-stack` hide stacks
+- `--stack message` only show the error message
+- `--stack peek` show the message and the first line of the trace (default)
+- `--stack full` show the message and the full trace
+- `--stack` same as `--stack full`
 
 ## License
 

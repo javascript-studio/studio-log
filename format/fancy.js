@@ -35,14 +35,21 @@ function stringify(value) {
   return `${chalk.magenta('{')}${values}${chalk.magenta('}')}`;
 }
 
-function formatStack(stack) {
-  const p = stack.indexOf('\n');
-  const first_line = p === -1 ? stack : stack.substring(0, p);
+function formatStack(style, stack) {
+  const p1 = stack.indexOf('\n');
+  const first_line = p1 === -1 ? stack : stack.substring(0, p1);
   const formatted = chalk.bgRed.white.bold(first_line);
-  if (p === -1) {
+  if (style === 'message' || p1 === -1) {
     return formatted;
   }
-  const remainder = chalk.gray(stack.substring(p + 1));
+  if (style === 'peek') {
+    const p2 = stack.indexOf('\n', p1 + 1);
+    const peek = p2 === -1
+      ? stack.substring(p1 + 1)
+      : stack.substring(p1 + 1, p2);
+    return `${formatted} ${chalk.gray(peek.trim())}`;
+  }
+  const remainder = chalk.gray(stack.substring(p1 + 1));
   return `${formatted}\n${remainder}`;
 }
 
@@ -51,7 +58,7 @@ module.exports = function ({
   topic = true,
   ns = true,
   data = true,
-  stack = true
+  stack = 'peek'
 } = {}) {
   return new Transform({
     writableObjectMode: true,
@@ -83,7 +90,7 @@ module.exports = function ({
         }
       }
       if (stack && entry.stack) {
-        parts.push(formatStack(entry.stack));
+        parts.push(formatStack(stack, entry.stack));
       }
       const str = parts.join(' ');
       callback(null, `${str}\n`);

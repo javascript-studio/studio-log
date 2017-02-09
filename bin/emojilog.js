@@ -8,7 +8,7 @@
 
 const argv = require('minimist')(process.argv.slice(2), {
   string: ['format'],
-  boolean: ['ts', 'ns', 'topic', 'data', 'stack'],
+  boolean: ['ts', 'ns', 'topic', 'data'],
   alias: {
     format: ['f']
   },
@@ -18,7 +18,7 @@ const argv = require('minimist')(process.argv.slice(2), {
     ns: true,
     topic: true,
     data: true,
-    stack: true
+    stack: 'peek'
   }
 });
 
