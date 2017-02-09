@@ -30,6 +30,7 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
+    "@studio/changes": "^1.1.0",
     "@studio/eslint-config": "^1.0.0",
     "eslint": "^3.14.1",
     "mocha": "^3.2.0",
