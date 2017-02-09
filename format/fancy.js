@@ -22,7 +22,7 @@ function stringify(value) {
     return chalk.yellow(value);
   }
   if (value instanceof Date) {
-    return stringify(value.toISOString());
+    return stringify(value.toLocaleString());
   }
   if (Array.isArray(value)) {
     const values = value.map(stringify).join(chalk.magenta(', '));

@@ -9,11 +9,9 @@ const logger = require('..');
 const format = require('../format/fancy');
 
 describe('format-fancy', () => {
-  const local_time = (function () {
-    const date_time = new Date(123).toLocaleString();
-    const time = date_time.substring(date_time.indexOf(' ') + 1);
-    return chalk.gray(time);
-  }());
+  const date_time = new Date(123).toLocaleString();
+  const time = date_time.substring(date_time.indexOf(' ') + 1);
+  const local_time = chalk.gray(time);
   const namespace = chalk.blue('test');
 
   let sandbox;
@@ -81,7 +79,7 @@ describe('format-fancy', () => {
 
     assert.equal(out, `${local_time} 📣  ${namespace} Data `
       + `${chalk.bold('date')}=`
-      + `${chalk.green('\'1970-01-01T00:00:00.123Z\'')}\n`);
+      + `${chalk.green(`'${date_time}'`)}\n`);
   });
 
   it('formats just date', () => {
@@ -89,7 +87,7 @@ describe('format-fancy', () => {
 
     assert.equal(out, `${local_time} 📣  ${namespace} `
       + `${chalk.bold('date')}=`
-      + `${chalk.green('\'1970-01-01T00:00:00.123Z\'')}\n`);
+      + `${chalk.green(`'${date_time}'`)}\n`);
   });
 
   it('formats msg and error', () => {
