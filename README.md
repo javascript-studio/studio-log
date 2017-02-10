@@ -11,11 +11,12 @@ Log [ndjson][1] to an output stream with emoji ✨
 - Uses topics instead of log levels for more fine grained filtering.
 - Uses object streams to avoid serialize -> parse -> serialize when used in a
   command line application.
+- Disabled by default. If no output stream is specified, no logs are written.
 
 ## Usage
 
 ```js
-const logger = require('@studio/log');
+const logger = require('@studio/log').out(process.stdout);
 
 const log = logger('app');
 
@@ -50,8 +51,8 @@ $ node app.js | emojilog
 - `logger.mute(namespace[, topic])`: Mute the given namespace or only the topic
   in the namespace, if given.
 - `logger.muteAll(topic)`: Mute the given topic in all namespaces.
-- `logger.out(stream)`: Configure the output stream to write logs to. Defaults
-  to `process.stdout`.
+- `logger.out(stream)`: Configure the output stream to write logs to. If not
+  specified, no logs are written.
 - `logger.transform(stream)`: Configure a transform stream to format logs. The
   given stream must be in `objectMode`. See "Format Transforms" section further
   down. The default transform simply stringifies the entry and append a newline.

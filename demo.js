@@ -5,7 +5,7 @@
  */
 'use strict';
 
-const logger = require('.');
+const logger = require('.').out(process.stdout);
 
 const log = logger('Studio');
 
