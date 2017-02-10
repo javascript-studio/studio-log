@@ -29,7 +29,7 @@ describe('logger', () => {
     logger.reset();
   });
 
-  it('logs a line to stdout', () => {
+  it('logs a line', () => {
     log.ok('Message');
 
     assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
@@ -65,36 +65,6 @@ describe('logger', () => {
 
     assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + '"data":{"some":"issue"},"stack":"Ouch!"}\n');
-  });
-
-  it('mutes a namespace', () => {
-    logger.mute('test');
-
-    log.ok('Message');
-    logger('other').ok('Other');
-
-    assert.equal(out, '{"ts":123,"ns":"other","topic":"ok","msg":"Other"}\n');
-  });
-
-  it('mutes a topics in a namesapce', () => {
-    logger.mute('test', 'ignore', 'wtf');
-
-    log.ignore('Whatever');
-    log.wtf('Huh?!');
-    log.ok('Message');
-
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-  });
-
-  it('mutes a topics in all namesapces', () => {
-    logger.muteAll('ignore', 'wtf');
-
-    log.ignore('Whatever');
-    log.ok('Message');
-    log.wtf('Huh?!');
-    logger('other').wtf('Oi!');
-
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
   });
 
   it('uses the given transform stream to serialize entries', () => {
