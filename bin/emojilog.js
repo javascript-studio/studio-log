@@ -33,13 +33,23 @@ process.stdin.on('data', (data) => {
   buf += data;
   let p = buf.indexOf('\n');
   while (p !== -1) {
-    const line = buf.substring(0, p);
-    try {
-      const json = JSON.parse(line);
-      formatter.write(json);
-    } catch (e) {
+    let line = buf.substring(0, p);
+    const start = line.indexOf('{');
+    if (start === -1) {
       process.stdout.write(line);
       process.stdout.write('\n');
+    } else {
+      if (start > 0) {
+        process.stdout.write(line.substring(0, start));
+        line = line.substring(start);
+      }
+      try {
+        const json = JSON.parse(line);
+        formatter.write(json);
+      } catch (e) {
+        process.stdout.write(line);
+        process.stdout.write('\n');
+      }
     }
     buf = buf.substring(p + 1);
     p = buf.indexOf('\n');
