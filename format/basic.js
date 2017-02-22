@@ -5,7 +5,7 @@
  */
 'use strict';
 
-const { Transform } = require('stream');
+const Transform = require('stream').Transform;
 const topics = require('../lib/topics');
 const value_format = require('../lib/value-format');
 
@@ -25,13 +25,13 @@ function formatStack(style, stack) {
   return `${first_line} ${peek.trim()}`;
 }
 
-module.exports = function ({
-  ts = true,
-  topic = true,
-  ns = true,
-  data = true,
-  stack = 'peek'
-} = {}) {
+module.exports = function (opts) {
+  opts = opts || {};
+  const ts = opts.ts !== false;
+  const topic = opts.topic !== false;
+  const ns = opts.ns !== false;
+  const data = opts.data !== false;
+  const stack = opts.hasOwnProperty('stack') ? opts.stack : 'peek';
   return new Transform({
     writableObjectMode: true,
 
@@ -53,7 +53,10 @@ module.exports = function ({
         for (const key in entry.data) {
           if (entry.data.hasOwnProperty(key)) {
             const value = entry.data[key];
-            const [k, v, unit] = value_format(key, value, JSON.stringify);
+            const kvu = value_format(key, value, JSON.stringify);
+            const k = kvu[0];
+            const v = kvu[1];
+            const unit = kvu[2];
             parts.push(k ? `${k}=${v}${unit}` : `${v}${unit}`);
           }
         }

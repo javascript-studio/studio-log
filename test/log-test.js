@@ -3,7 +3,8 @@
 
 const assert = require('assert');
 const sinon = require('sinon');
-const { Transform, Writable } = require('stream');
+const Transform = require('stream').Transform;
+const Writable = require('stream').Writable;
 const logger = require('..');
 
 describe('logger', () => {

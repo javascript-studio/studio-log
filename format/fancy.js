@@ -5,7 +5,7 @@
  */
 'use strict';
 
-const { Transform } = require('stream');
+const Transform = require('stream').Transform;
 const chalk = require('chalk');
 const topics = require('../lib/topics');
 const value_format = require('../lib/value-format');
@@ -53,13 +53,13 @@ function formatStack(style, stack) {
   return `${formatted}\n${remainder}`;
 }
 
-module.exports = function ({
-  ts = true,
-  topic = true,
-  ns = true,
-  data = true,
-  stack = 'peek'
-} = {}) {
+module.exports = function (opts) {
+  opts = opts || {};
+  const ts = opts.ts !== false;
+  const topic = opts.topic !== false;
+  const ns = opts.ns !== false;
+  const data = opts.data !== false;
+  const stack = opts.hasOwnProperty('stack') ? opts.stack : 'peek';
   return new Transform({
     writableObjectMode: true,
 
@@ -83,7 +83,10 @@ module.exports = function ({
         for (const key in entry.data) {
           if (entry.data.hasOwnProperty(key)) {
             const value = entry.data[key];
-            const [k, v, unit] = value_format(key, value, stringify);
+            const kvu = value_format(key, value, stringify);
+            const k = kvu[0];
+            const v = kvu[1];
+            const unit = kvu[2];
             const highlighted = unit ? `${chalk.yellow(v)}${unit}` : v;
             parts.push(k ? `${chalk.bold(k)}=${highlighted}` : highlighted);
           }

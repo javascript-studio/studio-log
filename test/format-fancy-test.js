@@ -4,7 +4,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const chalk = require('chalk');
-const { Writable } = require('stream');
+const Writable = require('stream').Writable;
 const logger = require('..');
 const format = require('../format/fancy');
 
