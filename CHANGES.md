@@ -1,5 +1,9 @@
 # Changes
 
+## 1.0.4
+
+🙈 Support Node 4
+
 ## 1.0.3
 
 ✨ Handle non-json prefix in `emojilog`. Attempt to parse JSON starting from
