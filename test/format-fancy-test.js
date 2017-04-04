@@ -72,11 +72,39 @@ describe('format-fancy', () => {
       + `${chalk.yellow('true')}\n`);
   });
 
-  it('escapes string', () => {
+  it('escapes quotes in string', () => {
     log.broadcast('Data', { some: 'str\'in\'g' });
 
     assert.equal(out, `${local_time} 📣  ${namespace} Data `
       + `${chalk.bold('some')}=${chalk.green('\'str\\\'in\\\'g\'')}\n`);
+  });
+
+  it('escapes \\n in string', () => {
+    log.broadcast('Data', { some: 'str\nin\ng' });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.green('\'str\\nin\\ng\'')}\n`);
+  });
+
+  it('escapes \\r\\n in string', () => {
+    log.broadcast('Data', { some: 'str\r\nin\r\ng' });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.green('\'str\\r\\nin\\r\\ng\'')}\n`);
+  });
+
+  it('escapes \\t in string', () => {
+    log.broadcast('Data', { some: 'str\tin\tg' });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.green('\'str\\tin\\tg\'')}\n`);
+  });
+
+  it('escapes quote after mewline in string', () => {
+    log.broadcast('Data', { some: 'str\nin\'g' });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.green('\'str\\nin\\\'g\'')}\n`);
   });
 
   it('highlights arrays', () => {

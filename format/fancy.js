@@ -16,7 +16,12 @@ function stringify(value) {
   }
   const type = typeof value;
   if (type === 'string') {
-    return chalk.green(`'${value.replace(/'/g, '\\\'')}'`);
+    const escaped = value
+      .replace(/'/g, '\\\'')
+      .replace(/\t/g, '\\t')
+      .replace(/\r/g, '\\r')
+      .replace(/\n/g, '\\n');
+    return chalk.green(`'${escaped}'`);
   }
   if (type === 'number' || type === 'boolean') {
     return chalk.yellow(value);
