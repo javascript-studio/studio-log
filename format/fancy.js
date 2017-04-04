@@ -10,17 +10,40 @@ const chalk = require('chalk');
 const topics = require('../lib/topics');
 const value_format = require('../lib/value-format');
 
+const non_printable_ecapes = {
+  0: '\\0',
+  7: '\\a',
+  8: '\\b',
+  9: '\\t',
+  10: '\\n',
+  11: '\\v',
+  12: '\\f',
+  13: '\\r',
+  27: '\\e'
+};
+
+function escapeNonPrintable(m) {
+  const code = m.charCodeAt(0);
+  const escape = non_printable_ecapes[code];
+  if (escape) {
+    return escape;
+  }
+  const hex = code.toString(16);
+  return hex.length === 1
+    ? `\\x0${hex}`
+    : `\\x${hex}`;
+}
+
 function stringify(value) {
   if (value === null || value === undefined) {
     return chalk.bold(String(value));
   }
   const type = typeof value;
   if (type === 'string') {
+    // https://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters
     const escaped = value
       .replace(/'/g, '\\\'')
-      .replace(/\t/g, '\\t')
-      .replace(/\r/g, '\\r')
-      .replace(/\n/g, '\\n');
+      .replace(/[^\x20-\x7e]/g, escapeNonPrintable);
     return chalk.green(`'${escaped}'`);
   }
   if (type === 'number' || type === 'boolean') {
