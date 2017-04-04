@@ -95,6 +95,13 @@ describe('format-fancy', () => {
       + `${chalk.yellow('7')} ${chalk.magenta('}')}\n`);
   });
 
+  it('formats empty objects', () => {
+    log.broadcast('Data', { some: {} });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.magenta('{}')}\n`);
+  });
+
   it('formats msg and date', () => {
     log.broadcast('Data', { date: new Date() });
 

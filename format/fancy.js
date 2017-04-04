@@ -32,7 +32,10 @@ function stringify(value) {
     const v = stringify(value[k]);
     return `${k}${chalk.magenta(':')} ${v}`;
   }).join(chalk.magenta(', '));
-  return `${chalk.magenta('{')} ${values} ${chalk.magenta('}')}`;
+  if (values) {
+    return `${chalk.magenta('{')} ${values} ${chalk.magenta('}')}`;
+  }
+  return chalk.magenta('{}');
 }
 
 function formatStack(style, stack) {
