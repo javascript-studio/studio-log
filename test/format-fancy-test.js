@@ -131,6 +131,23 @@ describe('format-fancy', () => {
       + `${namespace} ${chalk.bgRed.white.bold(message)} ${chalk.gray(trace)}`);
   });
 
+  it('formats error with full trace', () => {
+    logger.transform(format({ stack: 'full' }));
+    const error = new Error('Ouch!');
+
+    log.error(error);
+
+    const p = error.stack.indexOf('\n');
+    const expect_first_line = error.stack.substring(0, p);
+    const lines = out.split('\n');
+    assert.equal(lines[0], `${local_time} 🚨  `
+      + `${namespace} ${chalk.bgRed.white.bold(expect_first_line)}`);
+    assert.equal(lines.length > 3, true);
+    lines.slice(1).filter(line => line.trim()).forEach((line) => {
+      assert.notEqual(line.indexOf(' at '), -1, line);
+    });
+  });
+
   describe('units', () => {
 
     beforeEach(() => {
