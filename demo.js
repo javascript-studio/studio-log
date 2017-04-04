@@ -33,6 +33,7 @@ log.money('Received', { amount: 95 });
 log.numbers('Some stats', { a: 21, b: 13, c: 8 });
 log.wtf('WTF?!', {
   special: '\x00\x07\x08\x09\x0a\x0b\x0c\x0d\x1b',
-  hex: '\x01\x7f'
+  hex: '\x01\x7f',
+  emoji: '\ud83c\udf89'
 });
 log.wtf();

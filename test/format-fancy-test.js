@@ -142,6 +142,27 @@ describe('format-fancy', () => {
       + `${chalk.bold('some')}=${chalk.green('\'str\\ein\\eg\'')}\n`);
   });
 
+  it('prints umlaut in string', () => {
+    log.broadcast('Data', { some: 'äüöÄÜÖ' });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.green('\'äüöÄÜÖ\'')}\n`);
+  });
+
+  it('prints © and ® in string', () => {
+    log.broadcast('Data', { some: '©®' });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.green('\'©®\'')}\n`);
+  });
+
+  it('prints emoji', () => {
+    log.broadcast('Data', { some: '🎉' });
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.bold('some')}=${chalk.green('\'🎉\'')}\n`);
+  });
+
   it('escapes non-printable characters in string', () => {
     log.broadcast('Data', { some: '\x01str\x19in\x7fg' });
 

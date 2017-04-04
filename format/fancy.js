@@ -24,6 +24,9 @@ const non_printable_ecapes = {
 
 function escapeNonPrintable(m) {
   const code = m.charCodeAt(0);
+  if (code > 128) {
+    return m;
+  }
   const escape = non_printable_ecapes[code];
   if (escape) {
     return escape;
