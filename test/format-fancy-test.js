@@ -43,12 +43,33 @@ describe('format-fancy', () => {
     assert.equal(out, `${local_time} 📣  ${namespace} Oh, hi!\n`);
   });
 
-  it('formats data', () => {
+  it('formats data object', () => {
     log.broadcast('Data', { some: 'string', and: 42 });
 
     assert.equal(out, `${local_time} 📣  ${namespace} Data `
       + `${chalk.bold('some')}=${chalk.green('\'string\'')} `
       + `${chalk.bold('and')}=${chalk.yellow('42')}\n`);
+  });
+
+  it('formats data string', () => {
+    log.broadcast('Data', 'Also string');
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.green('\'Also string\'')}\n`);
+  });
+
+  it('formats data number', () => {
+    log.broadcast('Data', 1234);
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.yellow('1234')}\n`);
+  });
+
+  it('formats data boolean', () => {
+    log.broadcast('Data', true);
+
+    assert.equal(out, `${local_time} 📣  ${namespace} Data `
+      + `${chalk.yellow('true')}\n`);
   });
 
   it('escapes string', () => {

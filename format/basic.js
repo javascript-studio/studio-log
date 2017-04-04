@@ -50,15 +50,19 @@ module.exports = function (opts) {
         parts.push(entry.msg);
       }
       if (data && entry.data) {
-        for (const key in entry.data) {
-          if (entry.data.hasOwnProperty(key)) {
-            const value = entry.data[key];
-            const kvu = value_format(key, value, JSON.stringify);
-            const k = kvu[0];
-            const v = kvu[1];
-            const unit = kvu[2];
-            parts.push(k ? `${k}=${v}${unit}` : `${v}${unit}`);
+        if (typeof entry.data === 'object') {
+          for (const key in entry.data) {
+            if (entry.data.hasOwnProperty(key)) {
+              const value = entry.data[key];
+              const kvu = value_format(key, value, JSON.stringify);
+              const k = kvu[0];
+              const v = kvu[1];
+              const unit = kvu[2];
+              parts.push(k ? `${k}=${v}${unit}` : `${v}${unit}`);
+            }
           }
+        } else {
+          parts.push(JSON.stringify(entry.data));
         }
       }
       if (stack && entry.stack) {

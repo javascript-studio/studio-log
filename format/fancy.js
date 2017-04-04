@@ -80,16 +80,20 @@ module.exports = function (opts) {
         parts.push(entry.msg);
       }
       if (data && entry.data) {
-        for (const key in entry.data) {
-          if (entry.data.hasOwnProperty(key)) {
-            const value = entry.data[key];
-            const kvu = value_format(key, value, stringify);
-            const k = kvu[0];
-            const v = kvu[1];
-            const unit = kvu[2];
-            const highlighted = unit ? `${chalk.yellow(v)}${unit}` : v;
-            parts.push(k ? `${chalk.bold(k)}=${highlighted}` : highlighted);
+        if (typeof entry.data === 'object') {
+          for (const key in entry.data) {
+            if (entry.data.hasOwnProperty(key)) {
+              const value = entry.data[key];
+              const kvu = value_format(key, value, stringify);
+              const k = kvu[0];
+              const v = kvu[1];
+              const unit = kvu[2];
+              const highlighted = unit ? `${chalk.yellow(v)}${unit}` : v;
+              parts.push(k ? `${chalk.bold(k)}=${highlighted}` : highlighted);
+            }
           }
+        } else {
+          parts.push(stringify(entry.data));
         }
       }
       if (stack && entry.stack) {
