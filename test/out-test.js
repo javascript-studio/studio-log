@@ -45,4 +45,25 @@ describe('logger out', () => {
     assert.strictEqual(r, logger);
   });
 
+  describe('hasStream', () => {
+
+    it('returns false initially', () => {
+      assert.equal(logger.hasStream(), false);
+    });
+
+    it('returns true after out was set', () => {
+      logger.out(process.stdout);
+
+      assert.equal(logger.hasStream(), true);
+    });
+
+    it('returns false after out was set to null', () => {
+      logger.out(process.stdout);
+      logger.out(null);
+
+      assert.equal(logger.hasStream(), false);
+    });
+
+  });
+
 });

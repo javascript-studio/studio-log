@@ -56,6 +56,7 @@ $ node app.js | emojilog
 - `logger.transform(stream)`: Configure a transform stream to format logs. The
   given stream must be in `objectMode`. See "Format Transforms" section further
   down. The default transform simply stringifies the entry and append a newline.
+- `logger.hasStream()`: Whether an output stream was set.
 - `logger.reset()`: Resets everything to the defaults.
 
 ## Topics
