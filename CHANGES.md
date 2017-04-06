@@ -1,5 +1,9 @@
 # Changes
 
+## 1.1.0
+
+🍏 Add `hasStream()` to the API which returns whether an output stream was set.
+
 ## 1.0.5
 
 Fixes and improvements for the fancy format transform.
