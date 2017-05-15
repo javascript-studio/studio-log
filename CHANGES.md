@@ -1,5 +1,9 @@
 # Changes
 
+## 1.1.1
+
+🐛 Fix screenshot image to work outside of GitHub
+
 ## 1.1.0
 
 🍏 Add `hasStream()` to the API which returns whether an output stream was set.
