@@ -2,7 +2,7 @@
 
 Log [ndjson][1] to an output stream with emoji ✨
 
-<img src="emojilog.png">
+![](https://github.com/javascript-studio/studio-log/raw/master/emojilog.png)
 
 ## Features
 
