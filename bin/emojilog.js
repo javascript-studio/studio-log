@@ -22,36 +22,11 @@ const argv = require('minimist')(process.argv.slice(2), {
   }
 });
 
+const ParseTransform = require('@studio/ndjson/parse');
 const format = require(`../format/${argv.format}`);
 
-const formatter = format(argv);
-formatter.pipe(process.stdout);
-
-let buf = '';
 process.stdin.setEncoding('utf8');
-process.stdin.on('data', (data) => {
-  buf += data;
-  let p = buf.indexOf('\n');
-  while (p !== -1) {
-    let line = buf.substring(0, p);
-    const start = line.indexOf('{');
-    if (start === -1) {
-      process.stdout.write(line);
-      process.stdout.write('\n');
-    } else {
-      if (start > 0) {
-        process.stdout.write(line.substring(0, start));
-        line = line.substring(start);
-      }
-      try {
-        const json = JSON.parse(line);
-        formatter.write(json);
-      } catch (e) {
-        process.stdout.write(line);
-        process.stdout.write('\n');
-      }
-    }
-    buf = buf.substring(p + 1);
-    p = buf.indexOf('\n');
-  }
-});
+process.stdin
+  .pipe(new ParseTransform({ loose_out: process.stdout }))
+  .pipe(format(argv))
+  .pipe(process.stdout);
