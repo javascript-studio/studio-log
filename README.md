@@ -1,6 +1,6 @@
-# Tiny JSON logger with 📣
+# Studio Log
 
-Log [ndjson][1] to an output stream with emoji ✨
+Log [ndjson][1] to an output stream, format the output with emoji ✨
 
 ![](https://github.com/javascript-studio/studio-log/raw/master/emojilog.png)
 
@@ -102,7 +102,7 @@ These topics are available:
 
 ## Format Transforms
 
-Install a transform stream if you want to use `@sstudio/log` in a command line
+Install a transform stream if you want to use Studio log in a command line
 application. The bundled transform streams have to be required separately:
 
 ```js
