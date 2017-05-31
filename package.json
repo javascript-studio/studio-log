@@ -18,7 +18,8 @@
   "keywords": [
     "log",
     "emoji",
-    "json"
+    "json",
+    "ndjson"
   ],
   "author": "Maximilian Antoni <max@javascript.studio>",
   "homepage": "https://github.com/javascript-studio/studio-log",
