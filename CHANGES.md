@@ -1,5 +1,20 @@
 # Changes
 
+## 1.2.0
+
+The ndjson parsing and serialization was refactored into [a separate
+module][studio-ndjson]. This enables error handling for serialization failures.
+
+- 🍏 Use the [Studio ndjson][studio-ndjson] parser transform
+- 🍏 Handle transform error events. If a transform error occurs, an error
+  message is logged instead of throwing up the stack.
+- 🍏 Replace the internal default transform with the more robust implementation
+  from [Studio ndjson][studio-ndjson].
+- ✨ Make log functions no-ops if no output is given. This avoids pointless
+  `JSON.stringify` invocations and therefore improves performance a tiny bit.
+
+[studio-ndjson]: https://github.com/javascript-studio/studio-ndjson
+
 ## 1.1.1
 
 🐛 Fix screenshot image to work outside of GitHub
