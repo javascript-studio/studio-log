@@ -138,8 +138,8 @@ These options can be passed to the bundled format transforms:
 
 ## Custom Format Transforms
 
-Format transforms are [node transform streams][3] in `writableObjectMode`. This
-is the default transform implementation used to write [ndjson][1] logs:
+Format transforms are [node transform streams][3] in `writableObjectMode`. Here
+is an example transform implementation, similar to the [default transform][4]:
 
 ```js
 const { Transform } = require('stream');
@@ -154,6 +154,13 @@ const ndjson = new Transform({
 });
 ```
 
+## Related modules
+
+- ☯️ [Studio ndjson][4] can be used to parse the ndjson produced by Studio log.
+  The `ParseTransform` is internally used by the `emojilog` command and the
+  `StringifyTransform` is used as the default transform to serialize to ndjson.
+- 📦 [Studio Changes][5] is used to create the changelog for this module.
+
 ## License
 
 MIT
@@ -163,3 +170,5 @@ MIT
 [1]: http://ndjson.org/
 [2]: https://github.com/javascript-studio/studio-log/blob/master/demo.js
 [3]: https://nodejs.org/api/stream.html#stream_implementing_a_transform_stream
+[4]: https://github.com/javascript-studio/studio-ndjson
+[5]: https://github.com/javascript-studio/studio-changes
