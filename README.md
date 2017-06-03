@@ -48,14 +48,17 @@ $ node app.js | emojilog
     - `msg`: The message.
     - `data`: The data.
     - `stack`: The stack of error object.
+- `log.filter(stream)`: Configure a filter stream for this logger namespace.
+  The given stream must be in `objectMode`. Filter streams can be used to alter
+  the data before passing it to the transform stream.
 - `logger.mute(namespace[, topic])`: Mute the given namespace or only the topic
   in the namespace, if given.
 - `logger.muteAll(topic)`: Mute the given topic in all namespaces.
 - `logger.out(stream)`: Configure the output stream to write logs to. If not
   specified, no logs are written.
 - `logger.transform(stream)`: Configure a transform stream to format logs. The
-  given stream must be in `objectMode`. See "Format Transforms" section further
-  down. The default transform simply stringifies the entry and append a newline.
+  given stream must be in `readableObjectMode`. See "Format Transforms" section
+  further down. Defaults to [@studio/ndjson/stringify][4].
 - `logger.hasStream()`: Whether an output stream was set.
 - `logger.reset()`: Resets everything to the defaults.
 
