@@ -1,6 +1,6 @@
 # Studio Log
 
-Log [ndjson][1] to an output stream, format the output with emoji ✨
+👻 Log [ndjson][1] to an output stream, format the output with emoji ✨
 
 ![](https://github.com/javascript-studio/studio-log/raw/master/emojilog.png)
 
