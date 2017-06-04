@@ -100,4 +100,15 @@ describe('filter', () => {
     assert.deepEqual(entries, []);
   });
 
+  it('stops invoking filter if out is uninstalled', () => {
+    installOutputStream(); // Creates default transform
+    logger.out(null);
+    installFilterStream();
+
+    log.ok('Logs');
+
+    assert.equal(out, '');
+    assert.deepEqual(entries, []);
+  });
+
 });
