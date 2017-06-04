@@ -1,5 +1,15 @@
 # Changes
 
+## 1.3.0
+
+- 🍏 Add log instance filter stream support
+
+    > Filters are object streams to modify the log data before passing it to
+    > the transform stream. They can be used to x-out confidential information
+    > or add generated information to log entries.
+
+- ✨ Add npm 5 `package-lock.json`
+
 ## 1.2.0
 
 The ndjson parsing and serialization was refactored into [a separate
