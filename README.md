@@ -38,9 +38,15 @@ $ node app.js | emojilog
 
 ## API
 
+### Creating a logger
+
 - `log = logger(ns[, data])`: Creates a new logger with the given namespace.
   The namespace is added to each log entry as the `ns` property. If `data` is
-  provided, it is added to each log entry.
+  provided, it is added to each log entry. Multiple calls with the same `ns`
+  property return the same logger instance while data is replaced.
+
+### Log instance functions
+
 - `log.{topic}([message][, data][, error])`: Create a new log entry with these
   properties:
     - `ns`: The logger instance namespace.
@@ -50,14 +56,22 @@ $ node app.js | emojilog
     - `data`: The data.
     - `stack`: The stack of error object.
 - `log.filter(stream)`: Configure a filter stream for this logger namespace.
-- `logger.filter(stream)`: Configure a global filter stream.
+  See ["Filter Streams"](#filter-streams).
+- `log.mute()`: Mute this logger namespace.
+
+### Global functions
+
+- `logger.filter([namespace, ]stream)`: Configures a filter stream for the
+  given namespace, or a global filter stream. See ["Filter
+  Streams"](#filter-streams).
 - `logger.mute(namespace[, topic])`: Mute the given namespace or only the topic
   in the namespace, if given.
 - `logger.muteAll(topic)`: Mute the given topic in all namespaces.
 - `logger.out(stream)`: Configure the output stream to write logs to. If not
   specified, no logs are written.
 - `logger.transform(stream)`: Configure a transform stream to format logs. The
-  given stream must be in `readableObjectMode`. See "Format Transforms" section
+  given stream must be in `readableObjectMode`. See ["Format
+  Transforms"](#format-transforms).
   further down. Defaults to [@studio/ndjson/stringify][4].
 - `logger.hasStream()`: Whether an output stream was set.
 - `logger.reset()`: Resets everything to the defaults.
@@ -106,7 +120,8 @@ These topics are available:
 ## Filter Streams
 
 Filter streams can be used to alter the data before passing it to the transform
-stream (e.g. [Studio Log X][5]). Filter streams must be in `objectMode`.
+stream. Filter streams must be in `objectMode`. For example, [Studio Log X][5]
+is a filter stream implementation.
 
 ## Format Transforms
 
