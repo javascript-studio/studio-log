@@ -44,6 +44,10 @@ $ node app.js | emojilog
   The namespace is added to each log entry as the `ns` property. If `data` is
   provided, it is added to each log entry. Multiple calls with the same `ns`
   property return the same logger instance while data is replaced.
+- `log.child(ns[, data])`: Creates a child logger of a log instance. The
+  namespaces are joined with a blank and `data` is merged. Multiple calls with
+  the same `ns` property return the same logger instance while data is
+  replaced.
 
 ### Log instance functions
 
