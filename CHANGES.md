@@ -1,5 +1,26 @@
 # Changes
 
+## 1.4.0
+
+- 🍏 Add global log filter stream support
+
+    > A global filter stream can be configured which will receive all log
+    > entries before they are passed to the transform stream. This can be used
+    > to enrich the log data with generic environment information.
+
+- 🍏 Add support for logger base data
+
+    > When creating a logger, a `data` property can be passed which will be
+    > included in the `data` of each log entry.
+
+- 🍏 Add support for child loggers
+
+    > Child loggers have their namespace joined with their parent by a blank
+    > and the `data` property of the parent and the child logger are merged.
+
+- 🍏 Add `mute()` to logger instance
+- 🐛 Do not invoke filters if out stream was removed
+
 ## 1.3.0
 
 - 🍏 Add log instance filter stream support
