@@ -123,4 +123,29 @@ describe('logger', () => {
     assert.equal(out, '{"ts":123,"ns":"test","topic":"timing"}\n');
   });
 
+  it('logs base data', () => {
+    logger('base', { base: 'data' }).ok('Text');
+
+    assert.equal(out, '{"ts":123,"ns":"base","topic":"ok","msg":"Text",'
+      + '"data":{"base":"data"}}\n');
+  });
+
+  it('replaces base data when creating new logger', () => {
+    logger('base', { base: 'data' });
+    logger('base', { base: 'changed' }).ok('Text');
+
+    assert.equal(out, '{"ts":123,"ns":"base","topic":"ok","msg":"Text",'
+      + '"data":{"base":"changed"}}\n');
+  });
+
+  it('mixes base data with log data', () => {
+    const log = logger('test', { base: 'data' });
+    log.ok({ and: 7 });
+    log.ok({ or: 42 }); // Verify "and" is not copied into the base data
+
+    assert.equal(out, ''
+      + '{"ts":123,"ns":"test","topic":"ok","data":{"base":"data","and":7}}\n'
+      + '{"ts":123,"ns":"test","topic":"ok","data":{"base":"data","or":42}}\n');
+  });
+
 });

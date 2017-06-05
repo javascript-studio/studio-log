@@ -38,8 +38,9 @@ $ node app.js | emojilog
 
 ## API
 
-- `log = logger(ns)`: Creates a new logger with the given namespace. The
-  namespace is added to each log entry as the `ns` property.
+- `log = logger(ns[, data])`: Creates a new logger with the given namespace.
+  The namespace is added to each log entry as the `ns` property. If `data` is
+  provided, it is added to each log entry.
 - `log.{topic}([message][, data][, error])`: Create a new log entry with these
   properties:
     - `ns`: The logger instance namespace.
