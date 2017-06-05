@@ -29,17 +29,19 @@ The above produces this output:
 {"ts":1486630378584,"ns":"app","topic":"launch","msg":"my service","data":{"port":433}}
 ```
 
-Install this module globally (`npm install @studio/log -g`) to get the
-`emojilog` command line tool to format logs:
-
-```bash
-$ node app.js | emojilog
-```
-
 ## Install
 
 ```bash
 $ npm install @studio/log --save
+```
+
+Install this module globally to get the `emojilog` command line tool to format
+logs:
+
+```bash
+$ npm install @studio/log -g
+# ...
+$ node app.js | emojilog
 ```
 
 ## API
