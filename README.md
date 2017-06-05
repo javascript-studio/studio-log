@@ -36,6 +36,12 @@ Install this module globally (`npm install @studio/log -g`) to get the
 $ node app.js | emojilog
 ```
 
+## Install
+
+```bash
+$ npm install @studio/log --save
+```
+
 ## API
 
 ### Creating a logger
