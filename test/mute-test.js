@@ -38,6 +38,15 @@ describe('mute', () => {
     assert.equal(out, '{"ts":123,"ns":"other","topic":"ok","msg":"Other"}\n');
   });
 
+  it('mutes a logger namesapce', () => {
+    log.mute();
+
+    log.ok('Message');
+    logger('other').ok('Other');
+
+    assert.equal(out, '{"ts":123,"ns":"other","topic":"ok","msg":"Other"}\n');
+  });
+
   it('mutes a topics in a namesapce', () => {
     logger.mute('test', 'ignore', 'wtf');
 
