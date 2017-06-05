@@ -35,20 +35,20 @@ describe('filter', () => {
     }));
   }
 
-  function installFilterStream() {
-    log.filter(new Transform({
+  function createFilterStream() {
+    return new Transform({
       objectMode: true,
       transform(entry, enc, callback) {
         entries.push(entry);
         this.push(entry);
         callback();
       }
-    }));
+    });
   }
 
   it('writes to given filter if output is installed first', () => {
     installOutputStream();
-    installFilterStream();
+    log.filter(createFilterStream());
 
     log.ok('Message');
 
@@ -62,7 +62,7 @@ describe('filter', () => {
   });
 
   it('writes to given filter if output is installed after', () => {
-    installFilterStream();
+    log.filter(createFilterStream());
     installOutputStream();
 
     log.ok('Message');
@@ -77,7 +77,7 @@ describe('filter', () => {
   });
 
   it('stops writing to filter after reset I', () => {
-    installFilterStream();
+    log.filter(createFilterStream());
     installOutputStream();
 
     logger.reset();
@@ -89,7 +89,7 @@ describe('filter', () => {
   });
 
   it('stops writing to filter after reset II', () => {
-    installFilterStream();
+    log.filter(createFilterStream());
     // No output and therefore no default transform
 
     logger.reset();
@@ -103,12 +103,78 @@ describe('filter', () => {
   it('stops invoking filter if out is uninstalled', () => {
     installOutputStream(); // Creates default transform
     logger.out(null);
-    installFilterStream();
+    log.filter(createFilterStream());
 
     log.ok('Logs');
 
     assert.equal(out, '');
     assert.deepEqual(entries, []);
+  });
+
+  it('writes to global filter (I)', () => {
+    installOutputStream();
+    logger.filter(createFilterStream());
+
+    log.ok('Message');
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.deepEqual(entries, [{
+      ts: 123,
+      ns: 'test',
+      topic: 'ok',
+      msg: 'Message'
+    }]);
+  });
+
+  it('writes to local and global filter (I)', () => {
+    installOutputStream();
+    log.filter(createFilterStream());
+    logger.filter(createFilterStream());
+
+    log.ok('Message');
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.deepEqual(entries[0], {
+      ts: 123,
+      ns: 'test',
+      topic: 'ok',
+      msg: 'Message'
+    });
+    assert.deepEqual(entries[0], entries[1]);
+  });
+
+  it('writes to local and global filter (II)', () => {
+    installOutputStream();
+    logger.filter(createFilterStream());
+    log.filter(createFilterStream());
+
+    log.ok('Message');
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.deepEqual(entries[0], {
+      ts: 123,
+      ns: 'test',
+      topic: 'ok',
+      msg: 'Message'
+    });
+    assert.deepEqual(entries[0], entries[1]);
+  });
+
+  it('writes to local and global filter (III)', () => {
+    log.filter(createFilterStream());
+    logger.filter(createFilterStream());
+    installOutputStream();
+
+    log.ok('Message');
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.deepEqual(entries[0], {
+      ts: 123,
+      ns: 'test',
+      topic: 'ok',
+      msg: 'Message'
+    });
+    assert.deepEqual(entries[0], entries[1]);
   });
 
 });

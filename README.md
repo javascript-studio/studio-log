@@ -49,8 +49,7 @@ $ node app.js | emojilog
     - `data`: The data.
     - `stack`: The stack of error object.
 - `log.filter(stream)`: Configure a filter stream for this logger namespace.
-  The given stream must be in `objectMode`. Filter streams can be used to alter
-  the data before passing it to the transform stream (e.g. [Studio Log X][5]).
+- `logger.filter(stream)`: Configure a global filter stream.
 - `logger.mute(namespace[, topic])`: Mute the given namespace or only the topic
   in the namespace, if given.
 - `logger.muteAll(topic)`: Mute the given topic in all namespaces.
@@ -102,6 +101,11 @@ These topics are available:
 - `--stack peek` show the message and the first line of the trace (default)
 - `--stack full` show the message and the full trace
 - `--stack` same as `--stack full`
+
+## Filter Streams
+
+Filter streams can be used to alter the data before passing it to the transform
+stream (e.g. [Studio Log X][5]). Filter streams must be in `objectMode`.
 
 ## Format Transforms
 
