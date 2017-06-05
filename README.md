@@ -50,7 +50,7 @@ $ node app.js | emojilog
     - `stack`: The stack of error object.
 - `log.filter(stream)`: Configure a filter stream for this logger namespace.
   The given stream must be in `objectMode`. Filter streams can be used to alter
-  the data before passing it to the transform stream.
+  the data before passing it to the transform stream (e.g. [Studio Log X][5]).
 - `logger.mute(namespace[, topic])`: Mute the given namespace or only the topic
   in the namespace, if given.
 - `logger.muteAll(topic)`: Mute the given topic in all namespaces.
@@ -162,7 +162,8 @@ const ndjson = new Transform({
 - ☯️ [Studio ndjson][4] can be used to parse the ndjson produced by Studio log.
   The `ParseTransform` is internally used by the `emojilog` command and the
   `StringifyTransform` is used as the default transform to serialize to ndjson.
-- 📦 [Studio Changes][5] is used to create the changelog for this module.
+- ❎ [Studio Log X][5] x-out confidential data in log entries.
+- 📦 [Studio Changes][6] is used to create the changelog for this module.
 
 ## License
 
@@ -174,4 +175,5 @@ MIT
 [2]: https://github.com/javascript-studio/studio-log/blob/master/demo.js
 [3]: https://nodejs.org/api/stream.html#stream_implementing_a_transform_stream
 [4]: https://github.com/javascript-studio/studio-ndjson
-[5]: https://github.com/javascript-studio/studio-changes
+[5]: https://github.com/javascript-studio/studio-log-x
+[6]: https://github.com/javascript-studio/studio-changes
