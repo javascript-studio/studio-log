@@ -1,5 +1,9 @@
 # Changes
 
+## 1.4.1
+
+- ✨ Add install instructions
+
 ## 1.4.0
 
 - 🍏 Add global log filter stream support
