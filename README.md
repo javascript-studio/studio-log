@@ -15,18 +15,44 @@
 
 ## Usage
 
+Log output is disabled by default to ensure logs don't get in the way when
+writing unit tests. Therefore you want to set this up as the first thing in
+your main:
+
 ```js
-const logger = require('@studio/log').out(process.stdout);
+// Sending raw JSON logs to stdout, e.g. in a server application:
+require('@studio/log').out(process.stdout);
+
+// Sending fancy formatted logs to stdout, e.g. in a command line tool:
+require('@studio/log')
+  .transform(require('@studio/log/format/fancy')())
+  .out(process.stdout);
+```
+
+Next, create a logger instance in a module and start writing logs:
+
+```js
+const logger = require('@studio/log');
 
 const log = logger('app');
 
-log.launch('my service', { port: 433 });
+exports.startService = function (port) {
+  log.launch('my service', { port: 433 });
+};
+
 ```
 
-The above produces this output:
+In the server example above, this output is produced:
 
 ```json
 {"ts":1486630378584,"ns":"app","topic":"launch","msg":"my service","data":{"port":433}}
+```
+
+Send your logs to the `emojilog` command for pretty printing:
+
+```bash
+$ cat logs.ndjson | emojilog
+09:52:58 🚀  app my service port=433
 ```
 
 ## Install
