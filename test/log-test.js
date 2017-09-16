@@ -64,6 +64,55 @@ describe('logger', () => {
       + `"cause":${JSON.stringify(cause.stack)}}\n`);
   });
 
+  it('logs error object toString with numeric cause', () => {
+    const error = { toString: () => 'Ouch!', cause: 42 };
+
+    log.error({}, error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","data":{},'
+      + '"stack":"Ouch!","cause":"42"}\n');
+  });
+
+  it('logs error with code', () => {
+    const error = new Error('Ouch!');
+    error.code = 'E_CODE';
+
+    log.error('Oups', error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      + `"data":{"code":"E_CODE"},"stack":${JSON.stringify(error.stack)}}\n`);
+  });
+
+  it('logs error cause with code', () => {
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    cause.code = 'E_CODE';
+    error.cause = cause;
+
+    log.error('Oups', error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      + '"data":{"cause":{"code":"E_CODE"}},'
+      + `"stack":${JSON.stringify(error.stack)},`
+      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+  });
+
+  it('logs data with error cause with code', () => {
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    cause.code = 'E_CODE';
+    error.cause = cause;
+
+    const data = { some: 'data' };
+    log.error(data, error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+      + '"data":{"some":"data","cause":{"code":"E_CODE"}},'
+      + `"stack":${JSON.stringify(error.stack)},`
+      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+    assert.deepEqual(data, { some: 'data' }); // Verify not modified
+  });
+
   it('logs data and error object', () => {
     const error = new Error('Ouch!');
 
@@ -83,6 +132,27 @@ describe('logger', () => {
     assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)},`
       + `"cause":${JSON.stringify(error.cause.stack)}}\n`);
+  });
+
+  it('logs data and error object with code', () => {
+    const error = new Error('Ouch!');
+    error.code = 'E_CODE';
+
+    log.issue('Found', { some: 'issue' }, error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
+      + '"data":{"some":"issue","code":"E_CODE"},'
+      + `"stack":${JSON.stringify(error.stack)}}\n`);
+  });
+
+  it('does not modify given data object if error code is present', () => {
+    const error = new Error('Ouch!');
+    error.code = 'E_CODE';
+
+    const data = { some: 'issue' };
+    log.issue('Found', data, error);
+
+    assert.deepEqual(data, { some: 'issue' });
   });
 
   it('logs data and error string', () => {
