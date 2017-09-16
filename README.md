@@ -44,6 +44,34 @@ $ npm install @studio/log -g
 $ node app.js | emojilog
 ```
 
+## Topics
+
+Instead of log levels, this logger uses a set of topics to categorize, format
+and filter logs. Unlike log levels, topics are not ordered by severity.
+
+These topics are available:
+
+- ✅ = `ok`
+- ⚠️ = `warn`
+- 🐛 = `issue`
+- 🚨 = `error`
+- 🙈 = `ignore`
+- 🔺 = `input`
+- 🔻 = `output`
+- 📤 = `send`
+- 📥 = `receive`
+- 📡 = `fetch`
+- 🏁 = `finish`
+- 🚀 = `launch`
+- ⛔️ = `terminate`
+- ✨ = `spawn`
+- 📣 = `broadcast`
+- 💾 = `disk`
+- ⏱  = `timing`
+- 💰 = `money`
+- 🔢 = `numbers`
+- 👻 = `wtf`
+
 ## Log format
 
 - `ns`: The logger instance namespace.
@@ -105,34 +133,6 @@ $ node app.js | emojilog
   further down. Defaults to [@studio/ndjson/stringify][4].
 - `logger.hasStream()`: Whether an output stream was set.
 - `logger.reset()`: Resets everything to the defaults.
-
-## Topics
-
-Instead of log levels, this logger uses a set of topics to categorize, format
-and filter logs. Unlike log levels, topics are not ordered by severity.
-
-These topics are available:
-
-- ✅ = `ok`
-- ⚠️ = `warn`
-- 🐛 = `issue`
-- 🚨 = `error`
-- 🙈 = `ignore`
-- 🔺 = `input`
-- 🔻 = `output`
-- 📤 = `send`
-- 📥 = `receive`
-- 📡 = `fetch`
-- 🏁 = `finish`
-- 🚀 = `launch`
-- ⛔️ = `terminate`
-- ✨ = `spawn`
-- 📣 = `broadcast`
-- 💾 = `disk`
-- ⏱  = `timing`
-- 💰 = `money`
-- 🔢 = `numbers`
-- 👻 = `wtf`
 
 ## CLI Options
 
