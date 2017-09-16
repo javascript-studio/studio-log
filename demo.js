@@ -11,9 +11,12 @@ const log = logger('Studio');
 
 log.ok('Hello emoji log!');
 log.warn('This might come at a surprise', { ms_timeout: 15000 });
-log.error('Shit happens', new Error('Oh noes!'));
+log.warn('Shit happens', new Error('Oh noes!'));
 log.error('Or just a string', {}, 'Oh noes!');
 log.error(new Error('Or only an error'));
+const error = new Error('Or an error with a cause');
+error.cause = new Error('That caused the error');
+log.issue(error);
 log.issue('This might be an issue', { ms_slow: 567 });
 log.ignore('Yeah, whaterver ...', { some: 'random stuff' });
 log.input('Input received', { headers: { 'Content-Length': 12 } });
