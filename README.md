@@ -67,6 +67,7 @@ $ node app.js | emojilog
     - `msg`: The message.
     - `data`: The data.
     - `stack`: The stack of error object.
+    - `cause`: The cause stack of `error.cause` object, if available.
 - `log.filter(stream)`: Configure a filter stream for this logger namespace.
   See ["Filter Streams"](#filter-streams).
 - `log.mute()`: Mute this logger namespace.
@@ -166,7 +167,7 @@ These options can be passed to the bundled format transforms:
 - `ns: false` hide namespaces
 - `data: false` hide data
 - `stack: style` with these stack styles:
-    - `false: hide the error entirely
+    - `false`: hide the error entirely
     - `message` only show the error message
     - `peek` show the message and the first line of the trace (default)
     - `full` show the message and the full trace
