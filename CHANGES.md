@@ -1,5 +1,14 @@
 # Changes
 
+## 1.5.0
+
+- 🍏 Serialize the error `cause` as a new JSON property
+- 🍏 Serialize the error `code` into the `data` object
+- 🍏 Serialize the error `cause.code` into the `data` object
+- 🍏 Support the new `cause` property in the basic and fancy formatters
+- 📚 Add new feature to docs and improve usage example and API docs
+- 📚 Add cause example to demo
+
 ## 1.4.1
 
 - ✨ Add install instructions
