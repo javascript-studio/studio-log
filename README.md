@@ -172,6 +172,8 @@ These options can be passed to the bundled format transforms:
     - `peek` show the message and the first line of the trace (default)
     - `full` show the message and the full trace
 
+The `stack` option is also used to format the `"cause"`, if present.
+
 ## Custom Format Transforms
 
 Format transforms are [node transform streams][3] in `writableObjectMode`. Here
