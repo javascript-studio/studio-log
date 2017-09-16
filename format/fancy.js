@@ -133,7 +133,11 @@ module.exports = function (opts) {
       if (stack && entry.stack) {
         parts.push(formatStack(stack, entry.stack));
       }
-      const str = parts.join(' ');
+      let str = parts.join(' ');
+      if (stack && entry.cause) {
+        str += `\n  ${chalk.magenta('caused by')} ${
+          formatStack(stack, entry.cause)}`;
+      }
       callback(null, `${str}\n`);
     }
 

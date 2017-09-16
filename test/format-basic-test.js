@@ -79,6 +79,18 @@ describe('format-basic', () => {
       + `${error.stack}\n`);
   });
 
+  it('formats msg and error with cause', () => {
+    logger.transform(format({ stack: 'full' }));
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    error.cause = cause;
+
+    log.error('Oups', error);
+
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] Oups '
+      + `${error.stack}\n  caused by ${cause.stack}\n`);
+  });
+
   it('formats just error', () => {
     logger.transform(format({ stack: 'full' }));
     const error = new Error('Ouch!');
@@ -89,18 +101,37 @@ describe('format-basic', () => {
       + `${error.stack}\n`);
   });
 
+  function getFirstLineOfStack(error) {
+    const p1 = error.stack.indexOf('\n');
+    const p2 = error.stack.indexOf('\n', p1 + 1);
+    const message = error.stack.substring(0, p1);
+    const trace = error.stack.substring(p1 + 1, p2).trim();
+    return `${message} ${trace}`;
+  }
+
   it('formats error with first line of trace', () => {
     const error = new Error('Ouch!');
 
     log.error(error);
 
-    const p1 = error.stack.indexOf('\n');
-    const p2 = error.stack.indexOf('\n', p1 + 1);
-    const message = error.stack.substring(0, p1);
-    const trace = error.stack.substring(p1 + 1, p2).trim();
+    const error_peek = getFirstLineOfStack(error);
 
     assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
-      + `${message} ${trace}\n`);
+      + `${error_peek}\n`);
+  });
+
+  it('formats error and cause with first line of trace', () => {
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    error.cause = cause;
+
+    log.error(error);
+
+    const error_peek = getFirstLineOfStack(error);
+    const cause_peek = getFirstLineOfStack(cause);
+
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
+      + `${error_peek}\n  caused by ${cause_peek}\n`);
   });
 
   describe('options', () => {

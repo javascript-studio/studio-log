@@ -217,17 +217,36 @@ describe('format-fancy', () => {
       + `${chalk.green(`'${date_time}'`)}\n`);
   });
 
+  function getFirstLineOfStack(error) {
+    const p = error.stack.indexOf('\n');
+    return error.stack.substring(0, p);
+  }
+
   it('formats msg and error', () => {
     logger.transform(format({ stack: 'message' }));
     const error = new Error('Ouch!');
 
     log.error('Oups', error);
 
-    const p = error.stack.indexOf('\n');
-    const expect_first_line = error.stack.substring(0, p);
-    const actual_first_line = out.substring(0, out.indexOf('\n'));
-    assert.equal(actual_first_line, `${local_time} 🚨  `
-      + `${namespace} Oups ${chalk.bgRed.white.bold(expect_first_line)}`);
+    const error_first_line = getFirstLineOfStack(error);
+    assert.equal(out, `${local_time} 🚨  ${namespace} `
+      + `Oups ${chalk.bgRed.white.bold(error_first_line)}\n`);
+  });
+
+  it('formats msg and error with cause', () => {
+    logger.transform(format({ stack: 'message' }));
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    error.cause = cause;
+
+    log.error('Oups', error);
+
+    const error_first_line = getFirstLineOfStack(error);
+    const cause_first_line = getFirstLineOfStack(cause);
+    assert.equal(out, `${local_time} 🚨  ${namespace} `
+      + `Oups ${chalk.bgRed.white.bold(error_first_line)}\n`
+      + `  ${chalk.magenta('caused by')} `
+      + `${chalk.bgRed.white.bold(cause_first_line)}\n`);
   });
 
   it('formats just error', () => {
@@ -236,12 +255,19 @@ describe('format-fancy', () => {
 
     log.error(error);
 
-    const p = error.stack.indexOf('\n');
-    const expect_first_line = error.stack.substring(0, p);
-    const actual_first_line = out.substring(0, out.indexOf('\n'));
-    assert.equal(actual_first_line, `${local_time} 🚨  `
-      + `${namespace} ${chalk.bgRed.white.bold(expect_first_line)}`);
+    const error_first_line = getFirstLineOfStack(error);
+    assert.equal(out, `${local_time} 🚨  ${namespace} `
+      + `${chalk.bgRed.white.bold(error_first_line)}\n`);
   });
+
+  function getMessageAndFirstLineOfTrace(error) {
+    const p1 = error.stack.indexOf('\n');
+    const p2 = error.stack.indexOf('\n', p1 + 1);
+    return {
+      message: error.stack.substring(0, p1),
+      trace: error.stack.substring(p1 + 1, p2).trim()
+    };
+  }
 
   it('formats error with first line of trace', () => {
     logger.transform(format({ stack: 'peek' }));
@@ -249,13 +275,25 @@ describe('format-fancy', () => {
 
     log.error(error);
 
-    const p1 = error.stack.indexOf('\n');
-    const p2 = error.stack.indexOf('\n', p1 + 1);
-    const message = error.stack.substring(0, p1);
-    const trace = error.stack.substring(p1 + 1, p2).trim();
-    const actual_first_line = out.substring(0, out.indexOf('\n'));
-    assert.equal(actual_first_line, `${local_time} 🚨  `
-      + `${namespace} ${chalk.bgRed.white.bold(message)} ${chalk.gray(trace)}`);
+    const { message, trace } = getMessageAndFirstLineOfTrace(error);
+    assert.equal(out, `${local_time} 🚨  ${namespace} `
+      + `${chalk.bgRed.white.bold(message)} ${chalk.gray(trace)}\n`);
+  });
+
+  it('formats error and cause with first line of trace', () => {
+    logger.transform(format({ stack: 'peek' }));
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    error.cause = cause;
+
+    log.error(error);
+
+    const e = getMessageAndFirstLineOfTrace(error);
+    const c = getMessageAndFirstLineOfTrace(cause);
+    assert.equal(out, `${local_time} 🚨  ${namespace} `
+      + `${chalk.bgRed.white.bold(e.message)} ${chalk.gray(e.trace)}\n`
+      + `  ${chalk.magenta('caused by')} `
+      + `${chalk.bgRed.white.bold(c.message)} ${chalk.gray(c.trace)}\n`);
   });
 
   it('formats error with full trace', () => {
@@ -264,11 +302,10 @@ describe('format-fancy', () => {
 
     log.error(error);
 
-    const p = error.stack.indexOf('\n');
-    const expect_first_line = error.stack.substring(0, p);
+    const error_first_line = getFirstLineOfStack(error);
     const lines = out.split('\n');
     assert.equal(lines[0], `${local_time} 🚨  `
-      + `${namespace} ${chalk.bgRed.white.bold(expect_first_line)}`);
+      + `${namespace} ${chalk.bgRed.white.bold(error_first_line)}`);
     assert.equal(lines.length > 3, true);
     lines.slice(1).filter(line => line.trim()).forEach((line) => {
       assert.notEqual(line.indexOf(' at '), -1, line);
