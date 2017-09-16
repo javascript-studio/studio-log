@@ -52,6 +52,18 @@ describe('logger', () => {
       + `"stack":${JSON.stringify(error.stack)}}\n`);
   });
 
+  it('logs error with cause', () => {
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    error.cause = cause;
+
+    log.error('Oups', error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      + `"stack":${JSON.stringify(error.stack)},`
+      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+  });
+
   it('logs data and error object', () => {
     const error = new Error('Ouch!');
 
@@ -59,6 +71,18 @@ describe('logger', () => {
 
     assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)}}\n`);
+  });
+
+  it('logs data and error object with cause', () => {
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    error.cause = cause;
+
+    log.issue('Found', { some: 'issue' }, error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
+      + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)},`
+      + `"cause":${JSON.stringify(error.cause.stack)}}\n`);
   });
 
   it('logs data and error string', () => {
