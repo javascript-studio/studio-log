@@ -44,6 +44,16 @@ $ npm install @studio/log -g
 $ node app.js | emojilog
 ```
 
+## Log format
+
+- `ns`: The logger instance namespace.
+- `ts`: The timestamp as returned by `Date.now()`.
+- `topic`: The topic name.
+- `msg`: The message.
+- `data`: The data.
+- `stack`: The stack of error object.
+- `cause`: The cause stack of `error.cause` object, if available.
+
 ## API
 
 ### Creating a logger
@@ -60,14 +70,21 @@ $ node app.js | emojilog
 ### Log instance functions
 
 - `log.{topic}([message][, data][, error])`: Create a new log entry with these
-  properties:
-    - `ns`: The logger instance namespace.
-    - `ts`: The timestamp as returned by `Date.now()`.
-    - `topic`: The topic name.
-    - `msg`: The message.
-    - `data`: The data.
-    - `stack`: The stack of error object.
-    - `cause`: The cause stack of `error.cause` object, if available.
+  behaviors:
+    - The `topic` is added as the `"topic"`.
+    - If `message` is present, it's added as the `"msd"`.
+    - If `data` is present, it's added as the `"data"`.
+    - If `error` is present, the `stack` property of the error is added as the
+      `"stack"`. If no `stack` is present, the `toString` representation of the
+      error is used.
+    - If `error.code` is present, it is added to the `"data"` without modifying
+      the original object.
+    - If `error.cause` is present, the `stack` property of the cause is added
+      as the `"cause"`. If no `stack` is present, the `toString` representation
+      of the cause is used.
+    - If `error.cause.code` is present, a `cause` object is added to the
+      `"data"` with `{ code: cause.code }` and without modifying the original
+      object.
 - `log.filter(stream)`: Configure a filter stream for this logger namespace.
   See ["Filter Streams"](#filter-streams).
 - `log.mute()`: Mute this logger namespace.
