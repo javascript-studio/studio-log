@@ -34,9 +34,9 @@
   "devDependencies": {
     "@studio/changes": "^1.1.0",
     "@studio/eslint-config": "^1.0.0",
-    "eslint": "^3.14.1",
-    "mocha": "^3.4.2",
-    "sinon": "^2.3.2"
+    "eslint": "^4.8.0",
+    "mocha": "^4.0.0",
+    "sinon": "^4.0.1"
   },
   "repository": {
     "type": "git",
