@@ -275,9 +275,9 @@ describe('format-fancy', () => {
 
     log.error(error);
 
-    const { message, trace } = getMessageAndFirstLineOfTrace(error);
+    const e = getMessageAndFirstLineOfTrace(error);
     assert.equal(out, `${local_time} 🚨  ${namespace} `
-      + `${chalk.bgRed.white.bold(message)} ${chalk.gray(trace)}\n`);
+      + `${chalk.bgRed.white.bold(e.message)} ${chalk.gray(e.trace)}\n`);
   });
 
   it('formats error and cause with first line of trace', () => {
