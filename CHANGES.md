@@ -1,5 +1,11 @@
 # Changes
 
+## 1.5.1
+
+- 🐛  Restore Node 4 compatibility
+- 📚  Add `cause.js` example
+- 📚  Move `demo.js` into examples dir
+
 ## 1.5.0
 
 - 🍏 Serialize the error `cause` as a new JSON property
