@@ -250,7 +250,7 @@ MIT
 <div align="center">Made with ❤️ on 🌍</div>
 
 [1]: http://ndjson.org/
-[2]: https://github.com/javascript-studio/studio-log/blob/master/demo.js
+[2]: https://github.com/javascript-studio/studio-log/blob/master/examples/demo.js
 [3]: https://nodejs.org/api/stream.html#stream_implementing_a_transform_stream
 [4]: https://github.com/javascript-studio/studio-ndjson
 [5]: https://github.com/javascript-studio/studio-log-x
