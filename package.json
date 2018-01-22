@@ -1,6 +1,6 @@
 {
   "name": "@studio/log",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "A tiny JSON logger with emoji support",
   "bin": {
     "emojilog": "bin/emojilog.js"

@@ -1,5 +1,11 @@
 # Changes
 
+## 1.6.0
+
+- 🍏 Add source maps support
+
+    > Use `--map source.js.map` to specify a source maps file.
+
 ## 1.5.1
 
 - 🐛  Restore Node 4 compatibility
