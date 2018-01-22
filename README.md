@@ -162,8 +162,8 @@ These topics are available:
 
 ## CLI Options
 
-- `--format` or `-f`: Set the formatter to use. Defaults to "fancy".
-- `--no-ts`: hide timestamps
+- `--format` or `-f` set the formatter to use. Defaults to "fancy".
+- `--no-ts` hide timestamps
 - `--no-topic` hide topics
 - `--no-ns` hide namespaces
 - `--no-data` hide data
@@ -172,6 +172,7 @@ These topics are available:
 - `--stack peek` show the message and the first line of the trace (default)
 - `--stack full` show the message and the full trace
 - `--stack` same as `--stack full`
+- `--map` use given source maps file to map stack traces
 
 ## Filter Streams
 

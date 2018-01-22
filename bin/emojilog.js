@@ -7,7 +7,7 @@
 'use strict';
 
 const argv = require('minimist')(process.argv.slice(2), {
-  string: ['format'],
+  string: ['format', 'map'],
   boolean: ['ts', 'ns', 'topic', 'data'],
   alias: {
     format: ['f']
@@ -25,8 +25,12 @@ const argv = require('minimist')(process.argv.slice(2), {
 const ParseTransform = require('@studio/ndjson/parse');
 const format = require(`../format/${argv.format}`);
 
+const out = argv.map
+  ? require('../lib/sourcemaps')(argv.map, process.stdout)
+  : process.stdout;
+
 process.stdin.setEncoding('utf8');
 process.stdin
-  .pipe(new ParseTransform({ loose_out: process.stdout }))
+  .pipe(new ParseTransform({ loose_out: out }))
   .pipe(format(argv))
-  .pipe(process.stdout);
+  .pipe(out);
