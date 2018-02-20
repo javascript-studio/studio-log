@@ -1,5 +1,9 @@
 # Changes
 
+## 1.7.0
+
+- 🍏 Allow to add filters directly to a child namespace
+
 ## 1.6.0
 
 - 🍏 Add source maps support
