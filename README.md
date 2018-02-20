@@ -139,8 +139,8 @@ These topics are available:
     - If `error.cause.code` is present, a `cause` object is added to the
       `"data"` with `{ code: cause.code }` and without modifying the original
       object.
-- `log.filter(stream)`: Configure a filter stream for this logger namespace.
-  See ["Filter Streams"](#filter-streams).
+- `log.filter([ns, ]stream)`: Configure a filter stream for this logger or a
+  child logger namespace. See ["Filter Streams"](#filter-streams).
 - `log.mute()`: Mute this logger namespace.
 
 ### Global functions

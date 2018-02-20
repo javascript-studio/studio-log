@@ -177,4 +177,33 @@ describe('filter', () => {
     assert.deepEqual(entries[0], entries[1]);
   });
 
+
+  it('installs filter on global logger for given namespace', () => {
+    installOutputStream();
+    logger.filter('test', createFilterStream());
+
+    log.ok('Message');
+
+    assert.deepEqual(entries, [{
+      ts: 123,
+      ns: 'test',
+      topic: 'ok',
+      msg: 'Message'
+    }]);
+  });
+
+  it('installs filter on child logger for given namespace', () => {
+    installOutputStream();
+    log.filter('foo', createFilterStream());
+
+    log.child('foo').ok('Message');
+
+    assert.deepEqual(entries, [{
+      ts: 123,
+      ns: 'test foo',
+      topic: 'ok',
+      msg: 'Message'
+    }]);
+  });
+
 });
