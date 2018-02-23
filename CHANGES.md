@@ -1,5 +1,12 @@
 # Changes
 
+## 1.7.1
+
+- 🐛 Fix unwiring filters
+
+    > Filters must be unwired before re-configuring. This refactoring also
+    > removes some duplication in reset.
+
 ## 1.7.0
 
 - 🍏 Allow to add filters directly to a child namespace
