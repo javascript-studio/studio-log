@@ -126,7 +126,7 @@ These topics are available:
 - `log.{topic}([message][, data][, error])`: Create a new log entry with these
   behaviors:
     - The `topic` is added as the `"topic"`.
-    - If `message` is present, it's added as the `"msd"`.
+    - If `message` is present, it's added as the `"msg"`.
     - If `data` is present, it's added as the `"data"`.
     - If `error` is present, the `stack` property of the error is added as the
       `"stack"`. If no `stack` is present, the `toString` representation of the
