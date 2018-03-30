@@ -8,7 +8,7 @@ const Transform = require('stream').Transform;
 const logger = require('..');
 
 describe('filter', () => {
-  let sandbox;
+  let clock;
   let out;
   let log;
   let entries;
@@ -16,13 +16,13 @@ describe('filter', () => {
   beforeEach(() => {
     out = '';
     entries = [];
-    sandbox = sinon.createSandbox({ useFakeTimers: true });
-    sandbox.clock.tick(123);
+    clock = sinon.useFakeTimers();
+    clock.tick(123);
     log = logger('test');
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
     logger.reset();
   });
 

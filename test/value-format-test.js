@@ -8,14 +8,14 @@ const logger = require('..');
 const format = require('../format/basic');
 
 describe('value-format', () => {
-  let sandbox;
+  let clock;
   let log;
   let out;
 
   beforeEach(() => {
     log = logger('test');
     out = '';
-    sandbox = sinon.createSandbox({ useFakeTimers: true });
+    clock = sinon.useFakeTimers();
     logger.out(new Writable({
       write(chunk, enc, done) {
         out += chunk;
@@ -23,11 +23,11 @@ describe('value-format', () => {
       }
     }));
     logger.transform(format({ ts: false, ns: false }));
-    sandbox.clock.tick(123);
+    clock.tick(123);
   });
 
   afterEach(() => {
-    sandbox.restore();
+    clock.restore();
     logger.reset();
   });
 

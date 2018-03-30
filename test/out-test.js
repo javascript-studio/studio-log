@@ -7,17 +7,17 @@ const fancy_format = require('../format/fancy');
 const logger = require('..');
 
 describe('logger out', () => {
-  let sandbox;
+  let clock;
   let log;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox({ useFakeTimers: true });
-    sandbox.clock.tick(123);
+    clock = sinon.useFakeTimers();
+    clock.tick(123);
     log = logger('test');
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
     logger.reset();
   });
 

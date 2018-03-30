@@ -14,14 +14,14 @@ describe('format-fancy', () => {
   const local_time = chalk.gray(time);
   const namespace = chalk.blue('test');
 
-  let sandbox;
+  let clock;
   let log;
   let out;
 
   beforeEach(() => {
     log = logger('test');
     out = '';
-    sandbox = sinon.createSandbox({ useFakeTimers: true });
+    clock = sinon.useFakeTimers();
     logger.out(new Writable({
       write(chunk, enc, done) {
         out += chunk;
@@ -29,11 +29,11 @@ describe('format-fancy', () => {
       }
     }));
     logger.transform(format());
-    sandbox.clock.tick(123);
+    clock.tick(123);
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
     logger.reset();
   });
 

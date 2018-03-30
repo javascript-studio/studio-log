@@ -10,13 +10,10 @@ const uglify = require('uglify-es');
 const sourcemaps = require('../lib/sourcemaps');
 
 describe('sourcemaps', () => {
-  let sandbox;
   let output;
   let out;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(fs, 'readFileSync');
     output = '';
     out = new Transform({
       transform: (chunk, enc, callback) => {
@@ -27,7 +24,7 @@ describe('sourcemaps', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
   });
 
   it('maps sources', (done) => {
@@ -38,8 +35,8 @@ describe('sourcemaps', () => {
     const result = uglify.minify(script, {
       sourceMap: { filename: 'test.js' }
     });
-
-    fs.readFileSync.returns(JSON.stringify(result.map));
+    sinon.replace(fs, 'readFileSync',
+      sinon.fake.returns(JSON.stringify(result.map)));
 
     const stream = sourcemaps('source.js.map', out);
 
@@ -63,7 +60,8 @@ describe('sourcemaps', () => {
       sourceMap: { filename: 'test.js' }
     });
 
-    fs.readFileSync.returns(JSON.stringify(result.map));
+    sinon.replace(fs, 'readFileSync',
+      sinon.fake.returns(JSON.stringify(result.map)));
 
     const stream = sourcemaps('source.js.map', out);
 

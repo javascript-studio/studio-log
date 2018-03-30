@@ -37,7 +37,7 @@
     "@studio/eslint-config": "^1.0.0",
     "eslint": "^4.8.0",
     "mocha": "^4.0.0",
-    "sinon": "^4.0.1",
+    "sinon": "^5.0.0-next.4",
     "uglify-es": "^3.3.8"
   },
   "repository": {

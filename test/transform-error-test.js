@@ -8,25 +8,25 @@ const Writable = require('stream').Writable;
 const logger = require('..');
 
 describe('transform error', () => {
-  let sandbox;
+  let clock;
   let log;
   let out;
 
   beforeEach(() => {
     out = '';
-    sandbox = sinon.createSandbox({ useFakeTimers: true });
+    clock = sinon.useFakeTimers();
     logger.out(new Writable({
       write(chunk, enc, done) {
         out += chunk;
         done();
       }
     }));
-    sandbox.clock.tick(123);
+    clock.tick(123);
     log = logger('test');
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
     logger.reset();
   });
 
