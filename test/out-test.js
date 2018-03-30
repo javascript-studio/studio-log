@@ -11,7 +11,7 @@ describe('logger out', () => {
   let log;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create({ useFakeTimers: true });
+    sandbox = sinon.createSandbox({ useFakeTimers: true });
     sandbox.clock.tick(123);
     log = logger('test');
   });

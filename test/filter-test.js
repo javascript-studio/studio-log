@@ -16,7 +16,7 @@ describe('filter', () => {
   beforeEach(() => {
     out = '';
     entries = [];
-    sandbox = sinon.sandbox.create({ useFakeTimers: true });
+    sandbox = sinon.createSandbox({ useFakeTimers: true });
     sandbox.clock.tick(123);
     log = logger('test');
   });

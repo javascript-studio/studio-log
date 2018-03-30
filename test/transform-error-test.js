@@ -14,7 +14,7 @@ describe('transform error', () => {
 
   beforeEach(() => {
     out = '';
-    sandbox = sinon.sandbox.create({ useFakeTimers: true });
+    sandbox = sinon.createSandbox({ useFakeTimers: true });
     logger.out(new Writable({
       write(chunk, enc, done) {
         out += chunk;

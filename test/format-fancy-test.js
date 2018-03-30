@@ -21,7 +21,7 @@ describe('format-fancy', () => {
   beforeEach(() => {
     log = logger('test');
     out = '';
-    sandbox = sinon.sandbox.create({ useFakeTimers: true });
+    sandbox = sinon.createSandbox({ useFakeTimers: true });
     logger.out(new Writable({
       write(chunk, enc, done) {
         out += chunk;
