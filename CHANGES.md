@@ -1,5 +1,16 @@
 # Changes
 
+## 1.7.2
+
+- 🐛 Fix --map if chunks have multiple lines
+
+    > When passing `--map sourcemaps.map` to `emojilog`, the created transform
+    > stream expected each chunk to contain a single line. With this change,
+    > the sourcemaps lookup also works for multiline chunks.
+
+- ✨ Use Sinon 5 default sandbox
+- 📚 Fix typo in message docs
+
 ## 1.7.1
 
 - 🐛 Fix unwiring filters
