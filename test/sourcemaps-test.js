@@ -43,7 +43,7 @@ describe('sourcemaps', () => {
     out.on('finish', () => {
       sinon.assert.calledOnce(fs.readFileSync);
       sinon.assert.calledWith(fs.readFileSync, 'source.js.map', 'utf8');
-      assert.equal(output, 'at unknown (0:2:6)');
+      assert.equal(output, 'at unknown (0:2:6)\n');
       done();
     });
 
