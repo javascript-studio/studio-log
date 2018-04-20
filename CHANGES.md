@@ -1,5 +1,13 @@
 # Changes
 
+## 1.7.4
+
+- 🐛 Log all non-error related cause properties
+
+    > Previously, only the `code` property of the cause error was logged. With
+    > this change any property that is not `name`, `message` or `stack` is
+    > added to the `data.cause` object.
+
 ## 1.7.3
 
 - 🐛 Handle error like objects correctly
