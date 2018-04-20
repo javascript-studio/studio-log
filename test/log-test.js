@@ -113,6 +113,49 @@ describe('logger', () => {
     assert.deepEqual(data, { some: 'data' }); // Verify not modified
   });
 
+  it('logs message with custom error', () => {
+    function MyError(message) {
+      this.name = 'MyError';
+      this.message = message;
+    }
+    MyError.prototype.toString = function () {
+      return `${this.name}: ${this.message}`;
+    };
+
+    log.error('This went south', new MyError('Cause'));
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+      + '"msg":"This went south","stack":"MyError: Cause"}\n');
+  });
+
+  it('logs message with custom data object', () => {
+    function MyThing() {
+      this.is = 42;
+    }
+    MyThing.prototype.toString = function () {
+      return '[object MyThing]';
+    };
+
+    log.ok('Note', new MyThing());
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok",'
+      + '"msg":"Note","data":{"is":42}}\n');
+  });
+
+  it('logs message with data { name, message }', () => {
+    log.error({ name: 'a', message: 'b' });
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+      + '"data":{"name":"a","message":"b"}}\n');
+  });
+
+  it('logs message with error-like object { name, message, stack }', () => {
+    log.error({ name: 'SomeError', message: 'b', stack: 'Some issue' });
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+      + '"stack":"Some issue"}\n');
+  });
+
   it('logs data and error object', () => {
     const error = new Error('Ouch!');
 
