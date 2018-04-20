@@ -7,6 +7,14 @@ const Transform = require('stream').Transform;
 const Writable = require('stream').Writable;
 const logger = require('..');
 
+function MyError(message) {
+  this.name = 'MyError';
+  this.message = message;
+}
+MyError.prototype.toString = function () {
+  return `${this.name}: ${this.message}`;
+};
+
 describe('logger', () => {
   let clock;
   let out;
@@ -113,15 +121,61 @@ describe('logger', () => {
     assert.deepEqual(data, { some: 'data' }); // Verify not modified
   });
 
-  it('logs message with custom error', () => {
-    function MyError(message) {
-      this.name = 'MyError';
-      this.message = message;
-    }
-    MyError.prototype.toString = function () {
-      return `${this.name}: ${this.message}`;
-    };
+  it('logs error cause with random properties', () => {
+    const error = new Error('Ouch!');
+    const cause = new Error('Cause');
+    cause.random = 42;
+    cause.property = true;
+    error.cause = cause;
 
+    log.error('Oups', error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      + '"data":{"cause":{"random":42,"property":true}},'
+      + `"stack":${JSON.stringify(error.stack)},`
+      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+  });
+
+  it('logs error cause without name and message properties', () => {
+    const error = new Error('Ouch!');
+    const cause = new MyError('Cause');
+    cause.random = 42;
+    cause.property = true;
+    error.cause = cause;
+
+    log.error('Oups', error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      + '"data":{"cause":{"random":42,"property":true}},'
+      + `"stack":${JSON.stringify(error.stack)},`
+      + `"cause":"${cause.toString()}"}\n`);
+  });
+
+  it('logs error cause without properties other than name and message', () => {
+    const error = new Error('Ouch!');
+    const cause = new MyError('Cause');
+    error.cause = cause;
+
+    log.error('Oups', error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      // Note: No "data" property
+      + `"stack":${JSON.stringify(error.stack)},`
+      + `"cause":"${cause.toString()}"}\n`);
+  });
+
+  it('does not screw up if cause is string', () => {
+    const error = new Error('Ouch!');
+    error.cause = 'Simple string cause';
+
+    log.error('Oups', error);
+
+    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      + `"stack":${JSON.stringify(error.stack)},`
+      + '"cause":"Simple string cause"}\n');
+  });
+
+  it('logs message with custom error', () => {
     log.error('This went south', new MyError('Cause'));
 
     assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
