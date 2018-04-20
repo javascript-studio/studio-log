@@ -1,5 +1,9 @@
 # Changes
 
+## 1.7.3
+
+- 🐛 Handle error like objects correctly
+
 ## 1.7.2
 
 - 🐛 Fix --map if chunks have multiple lines
