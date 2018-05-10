@@ -1,5 +1,13 @@
 # Changes
 
+## 1.7.5
+
+- 🐛 Adjust whitespace after emoji to be consistent
+
+    > With Unicode 9 most emoji are rendered with the correct width now. Some
+    > still need an extra space though. This changes the spacing to make them
+    > look consistent.
+
 ## 1.7.4
 
 - 🐛 Log all non-error related cause properties
