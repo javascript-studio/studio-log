@@ -34,38 +34,38 @@ describe('format-basic', () => {
   it('formats ts, topic, ns and msg', () => {
     log.broadcast('Oh, hi!');
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] Oh, hi!\n');
+    assert.equal(out, '1970-01-01T00:00:00.123Z 📣 [test] Oh, hi!\n');
   });
 
   it('formats msg and data object', () => {
     log.broadcast('Data', { some: 'string', and: 42 });
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] Data '
+    assert.equal(out, '1970-01-01T00:00:00.123Z 📣 [test] Data '
       + 'some="string" and=42\n');
   });
 
   it('formats msg and data string', () => {
     log.broadcast('Data', 'Also data');
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] Data "Also data"\n');
+    assert.equal(out, '1970-01-01T00:00:00.123Z 📣 [test] Data "Also data"\n');
   });
 
   it('formats msg and data number', () => {
     log.broadcast('Data', 1234);
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] Data 1234\n');
+    assert.equal(out, '1970-01-01T00:00:00.123Z 📣 [test] Data 1234\n');
   });
 
   it('formats msg and data boolean', () => {
     log.broadcast('Data', true);
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] Data true\n');
+    assert.equal(out, '1970-01-01T00:00:00.123Z 📣 [test] Data true\n');
   });
 
   it('formats just data', () => {
     log.broadcast({ some: 'string', and: 42 });
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 📣  [test] '
+    assert.equal(out, '1970-01-01T00:00:00.123Z 📣 [test] '
       + 'some="string" and=42\n');
   });
 
@@ -75,7 +75,7 @@ describe('format-basic', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] Oups '
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨 [test] Oups '
       + `${error.stack}\n`);
   });
 
@@ -87,7 +87,7 @@ describe('format-basic', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] Oups '
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨 [test] Oups '
       + `${error.stack}\n  caused by ${cause.stack}\n`);
   });
 
@@ -97,7 +97,7 @@ describe('format-basic', () => {
 
     log.error(error);
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨 [test] '
       + `${error.stack}\n`);
   });
 
@@ -116,7 +116,7 @@ describe('format-basic', () => {
 
     const error_peek = getFirstLineOfStack(error);
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨 [test] '
       + `${error_peek}\n`);
   });
 
@@ -130,7 +130,7 @@ describe('format-basic', () => {
     const error_peek = getFirstLineOfStack(error);
     const cause_peek = getFirstLineOfStack(cause);
 
-    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨  [test] '
+    assert.equal(out, '1970-01-01T00:00:00.123Z 🚨 [test] '
       + `${error_peek}\n  caused by ${cause_peek}\n`);
   });
 
@@ -141,7 +141,7 @@ describe('format-basic', () => {
 
       log.wtf('WTF?!');
 
-      assert.equal(out, '👻  [test] WTF?!\n');
+      assert.equal(out, '👻 [test] WTF?!\n');
     });
 
     it('does not write emoji if `topic` option is false', () => {
@@ -157,7 +157,7 @@ describe('format-basic', () => {
 
       log.wtf('WTF?!');
 
-      assert.equal(out, '1970-01-01T00:00:00.123Z 👻  WTF?!\n');
+      assert.equal(out, '1970-01-01T00:00:00.123Z 👻 WTF?!\n');
     });
 
     it('does not write data if `data` option is false', () => {
@@ -165,7 +165,7 @@ describe('format-basic', () => {
 
       log.numbers('Data', { bytes_foo: 42 });
 
-      assert.equal(out, '1970-01-01T00:00:00.123Z 🔢  [test] Data\n');
+      assert.equal(out, '1970-01-01T00:00:00.123Z 🔢 [test] Data\n');
     });
 
     it('does not write stack if `stack` option is false', () => {
@@ -173,7 +173,7 @@ describe('format-basic', () => {
 
       log.ignore('Err', new Error('Oh oh!'));
 
-      assert.equal(out, '1970-01-01T00:00:00.123Z 🙈  [test] Err\n');
+      assert.equal(out, '1970-01-01T00:00:00.123Z 🙈 [test] Err\n');
     });
 
   });

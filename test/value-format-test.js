@@ -34,14 +34,14 @@ describe('value-format', () => {
   it('formats "ts" property in data', () => {
     log.spawn('Data', { ts: 456 });
 
-    assert.equal(out, '✨  Data '
+    assert.equal(out, '✨ Data '
       + '"1970-01-01T00:00:00.456Z"\n');
   });
 
   it('formats "ts_foo" property in data', () => {
     log.spawn('Data', { ts_foo: 456 });
 
-    assert.equal(out, '✨  Data '
+    assert.equal(out, '✨ Data '
       + 'foo="1970-01-01T00:00:00.456Z"\n');
   });
 
@@ -84,39 +84,39 @@ describe('value-format', () => {
   it('formats "bytes" property in data', () => {
     log.spawn('Size', { bytes: 7 });
 
-    assert.equal(out, '✨  Size 7B\n');
+    assert.equal(out, '✨ Size 7B\n');
   });
 
   it('formats "kb_foo" property in data', () => {
     log.spawn('Size', { bytes_foo: 42 });
 
-    assert.equal(out, '✨  Size foo=42B\n');
+    assert.equal(out, '✨ Size foo=42B\n');
   });
 
   it('formats "bytes" >= 512 as kB', () => {
     log.spawn('Size', { bytes_a: 512, bytes_b: 1024 + 512 });
 
-    assert.equal(out, '✨  Size '
+    assert.equal(out, '✨ Size '
       + 'a=0.5kB b=1.5kB\n');
   });
 
   it('formats "bytes" >= 10 kB without fraction', () => {
     log.spawn('Size', { bytes: 10240 });
 
-    assert.equal(out, '✨  Size 10kB\n');
+    assert.equal(out, '✨ Size 10kB\n');
   });
 
   it('formats "bytes" >= 1024000 as MB', () => {
     log.spawn('Size', { bytes_a: 1023000, bytes_b: 1024000 });
 
-    assert.equal(out, '✨  Size '
+    assert.equal(out, '✨ Size '
       + 'a=999kB b=1.0MB\n');
   });
 
   it('formats "bytes" >= 10 MB without fraction', () => {
     log.spawn('Size', { bytes: 10240000 });
 
-    assert.equal(out, '✨  Size 10MB\n');
+    assert.equal(out, '✨ Size 10MB\n');
   });
 
 });
