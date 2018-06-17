@@ -1,10 +1,9 @@
 /*eslint-env mocha*/
 'use strict';
 
-const assert = require('assert');
-const sinon = require('sinon');
-const Writable = require('stream').Writable;
-const Transform = require('stream').Transform;
+const { assert, sinon } = require('@sinonjs/referee-sinon');
+const { Writable } = require('stream');
+const { Transform } = require('stream');
 const logger = require('..');
 
 describe('filter', () => {
@@ -52,8 +51,8 @@ describe('filter', () => {
 
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries, [{
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries, [{
       ts: 123,
       ns: 'test',
       topic: 'ok',
@@ -67,8 +66,8 @@ describe('filter', () => {
 
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries, [{
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries, [{
       ts: 123,
       ns: 'test',
       topic: 'ok',
@@ -84,8 +83,8 @@ describe('filter', () => {
     installOutputStream();
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries, []);
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries, []);
   });
 
   it('stops writing to filter after reset II', () => {
@@ -96,8 +95,8 @@ describe('filter', () => {
     installOutputStream();
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries, []);
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries, []);
   });
 
   it('stops invoking filter if out is uninstalled', () => {
@@ -107,8 +106,8 @@ describe('filter', () => {
 
     log.ok('Logs');
 
-    assert.equal(out, '');
-    assert.deepEqual(entries, []);
+    assert.equals(out, '');
+    assert.equals(entries, []);
   });
 
   it('writes to global filter (I)', () => {
@@ -117,8 +116,8 @@ describe('filter', () => {
 
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries, [{
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries, [{
       ts: 123,
       ns: 'test',
       topic: 'ok',
@@ -133,14 +132,14 @@ describe('filter', () => {
 
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries[0], {
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries[0], {
       ts: 123,
       ns: 'test',
       topic: 'ok',
       msg: 'Message'
     });
-    assert.deepEqual(entries[0], entries[1]);
+    assert.equals(entries[0], entries[1]);
   });
 
   it('writes to local and global filter (II)', () => {
@@ -150,14 +149,14 @@ describe('filter', () => {
 
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries[0], {
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries[0], {
       ts: 123,
       ns: 'test',
       topic: 'ok',
       msg: 'Message'
     });
-    assert.deepEqual(entries[0], entries[1]);
+    assert.equals(entries[0], entries[1]);
   });
 
   it('writes to local and global filter (III)', () => {
@@ -167,14 +166,14 @@ describe('filter', () => {
 
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
-    assert.deepEqual(entries[0], {
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(entries[0], {
       ts: 123,
       ns: 'test',
       topic: 'ok',
       msg: 'Message'
     });
-    assert.deepEqual(entries[0], entries[1]);
+    assert.equals(entries[0], entries[1]);
   });
 
 
@@ -184,7 +183,7 @@ describe('filter', () => {
 
     log.ok('Message');
 
-    assert.deepEqual(entries, [{
+    assert.equals(entries, [{
       ts: 123,
       ns: 'test',
       topic: 'ok',
@@ -198,7 +197,7 @@ describe('filter', () => {
 
     log.child('foo').ok('Message');
 
-    assert.deepEqual(entries, [{
+    assert.equals(entries, [{
       ts: 123,
       ns: 'test foo',
       topic: 'ok',

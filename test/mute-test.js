@@ -1,9 +1,8 @@
 /*eslint-env mocha*/
 'use strict';
 
-const assert = require('assert');
-const sinon = require('sinon');
-const Writable = require('stream').Writable;
+const { assert, sinon } = require('@sinonjs/referee-sinon');
+const { Writable } = require('stream');
 const logger = require('..');
 
 describe('mute', () => {
@@ -35,7 +34,7 @@ describe('mute', () => {
     log.ok('Message');
     logger('other').ok('Other');
 
-    assert.equal(out, '{"ts":123,"ns":"other","topic":"ok","msg":"Other"}\n');
+    assert.equals(out, '{"ts":123,"ns":"other","topic":"ok","msg":"Other"}\n');
   });
 
   it('mutes a logger namesapce', () => {
@@ -44,7 +43,7 @@ describe('mute', () => {
     log.ok('Message');
     logger('other').ok('Other');
 
-    assert.equal(out, '{"ts":123,"ns":"other","topic":"ok","msg":"Other"}\n');
+    assert.equals(out, '{"ts":123,"ns":"other","topic":"ok","msg":"Other"}\n');
   });
 
   it('mutes a topics in a namesapce', () => {
@@ -54,7 +53,7 @@ describe('mute', () => {
     log.wtf('Huh?!');
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
   });
 
   it('mutes a topics in all namesapces', () => {
@@ -65,19 +64,19 @@ describe('mute', () => {
     log.wtf('Huh?!');
     logger('other').wtf('Oi!');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
   });
 
   it('returns self for "mute"', () => {
     const r = logger.mute('test');
 
-    assert.strictEqual(r, logger);
+    assert.same(r, logger);
   });
 
   it('returns self for "muteAll"', () => {
     const r = logger.muteAll('test');
 
-    assert.strictEqual(r, logger);
+    assert.same(r, logger);
   });
 
 });

@@ -2,10 +2,9 @@
 /*eslint-disable no-sync*/
 'use strict';
 
-const assert = require('assert');
 const fs = require('fs');
-const Transform = require('stream').Transform;
-const sinon = require('sinon');
+const { Transform } = require('stream');
+const { assert, sinon } = require('@sinonjs/referee-sinon');
 const uglify = require('uglify-es');
 const sourcemaps = require('../lib/sourcemaps');
 
@@ -41,9 +40,9 @@ describe('sourcemaps', () => {
     const stream = sourcemaps('source.js.map', out);
 
     out.on('finish', () => {
-      sinon.assert.calledOnce(fs.readFileSync);
-      sinon.assert.calledWith(fs.readFileSync, 'source.js.map', 'utf8');
-      assert.equal(output, 'at unknown (0:2:6)\n');
+      assert.calledOnce(fs.readFileSync);
+      assert.calledWith(fs.readFileSync, 'source.js.map', 'utf8');
+      assert.equals(output, 'at unknown (0:2:6)\n');
       done();
     });
 
@@ -66,7 +65,7 @@ describe('sourcemaps', () => {
     const stream = sourcemaps('source.js.map', out);
 
     out.on('finish', () => {
-      assert.equal(output, 'at xyz (any.js:5:17)\n');
+      assert.equals(output, 'at xyz (any.js:5:17)\n');
       done();
     });
 

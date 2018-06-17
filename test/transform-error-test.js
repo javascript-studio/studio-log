@@ -1,10 +1,9 @@
 /*eslint-env mocha*/
 'use strict';
 
-const assert = require('assert');
-const sinon = require('sinon');
-const Transform = require('stream').Transform;
-const Writable = require('stream').Writable;
+const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
+const { Transform } = require('stream');
+const { Writable } = require('stream');
 const logger = require('..');
 
 describe('transform error', () => {
@@ -36,11 +35,11 @@ describe('transform error', () => {
     log.ok('Message', { toJSON: () => { throw error; } });
 
     const entry = JSON.parse(out);
-    assert.equal(entry.ts, 123);
-    assert.equal(entry.ns, 'logger');
-    assert.equal(entry.topic, 'error');
-    assert.equal(entry.msg, 'Transform failed');
-    assert.equal(entry.stack, error.stack);
+    assert.equals(entry.ts, 123);
+    assert.equals(entry.ns, 'logger');
+    assert.equals(entry.topic, 'error');
+    assert.equals(entry.msg, 'Transform failed');
+    assert.equals(entry.stack, error.stack);
   });
 
   it('handles recursive error', () => {
@@ -50,7 +49,7 @@ describe('transform error', () => {
       }
     }));
 
-    assert.doesNotThrow(() => {
+    refute.exception(() => {
       log.ok('Message');
     });
   });
