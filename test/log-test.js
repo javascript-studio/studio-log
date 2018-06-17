@@ -1,10 +1,9 @@
 /*eslint-env mocha*/
 'use strict';
 
-const assert = require('assert');
-const sinon = require('sinon');
-const Transform = require('stream').Transform;
-const Writable = require('stream').Writable;
+const { assert, sinon } = require('@sinonjs/referee-sinon');
+const { Transform } = require('stream');
+const { Writable } = require('stream');
 const logger = require('..');
 
 function MyError(message) {
@@ -41,13 +40,13 @@ describe('logger', () => {
   it('logs a line', () => {
     log.ok('Message');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok","msg":"Message"}\n');
   });
 
   it('logs data', () => {
     log.output('All', { the: 'things' });
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"output","msg":"All",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"output","msg":"All",'
       + '"data":{"the":"things"}}\n');
   });
 
@@ -56,7 +55,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + `"stack":${JSON.stringify(error.stack)}}\n`);
   });
 
@@ -67,7 +66,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + `"stack":${JSON.stringify(error.stack)},`
       + `"cause":${JSON.stringify(cause.stack)}}\n`);
   });
@@ -77,7 +76,7 @@ describe('logger', () => {
 
     log.error({}, error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","data":{},'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","data":{},'
       + '"stack":"Ouch!","cause":"42"}\n');
   });
 
@@ -87,7 +86,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + `"data":{"code":"E_CODE"},"stack":${JSON.stringify(error.stack)}}\n`);
   });
 
@@ -99,7 +98,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + '"data":{"cause":{"code":"E_CODE"}},'
       + `"stack":${JSON.stringify(error.stack)},`
       + `"cause":${JSON.stringify(cause.stack)}}\n`);
@@ -114,11 +113,11 @@ describe('logger', () => {
     const data = { some: 'data' };
     log.error(data, error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
       + '"data":{"some":"data","cause":{"code":"E_CODE"}},'
       + `"stack":${JSON.stringify(error.stack)},`
       + `"cause":${JSON.stringify(cause.stack)}}\n`);
-    assert.deepEqual(data, { some: 'data' }); // Verify not modified
+    assert.equals(data, { some: 'data' }); // Verify not modified
   });
 
   it('logs error cause with random properties', () => {
@@ -130,7 +129,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + '"data":{"cause":{"random":42,"property":true}},'
       + `"stack":${JSON.stringify(error.stack)},`
       + `"cause":${JSON.stringify(cause.stack)}}\n`);
@@ -145,7 +144,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + '"data":{"cause":{"random":42,"property":true}},'
       + `"stack":${JSON.stringify(error.stack)},`
       + `"cause":"${cause.toString()}"}\n`);
@@ -158,7 +157,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       // Note: No "data" property
       + `"stack":${JSON.stringify(error.stack)},`
       + `"cause":"${cause.toString()}"}\n`);
@@ -170,7 +169,7 @@ describe('logger', () => {
 
     log.error('Oups', error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + `"stack":${JSON.stringify(error.stack)},`
       + '"cause":"Simple string cause"}\n');
   });
@@ -178,7 +177,7 @@ describe('logger', () => {
   it('logs message with custom error', () => {
     log.error('This went south', new MyError('Cause'));
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
       + '"msg":"This went south","stack":"MyError: Cause"}\n');
   });
 
@@ -192,21 +191,21 @@ describe('logger', () => {
 
     log.ok('Note', new MyThing());
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"ok",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok",'
       + '"msg":"Note","data":{"is":42}}\n');
   });
 
   it('logs message with data { name, message }', () => {
     log.error({ name: 'a', message: 'b' });
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
       + '"data":{"name":"a","message":"b"}}\n');
   });
 
   it('logs message with error-like object { name, message, stack }', () => {
     log.error({ name: 'SomeError', message: 'b', stack: 'Some issue' });
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
       + '"stack":"Some issue"}\n');
   });
 
@@ -215,7 +214,7 @@ describe('logger', () => {
 
     log.issue('Found', { some: 'issue' }, error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)}}\n`);
   });
 
@@ -226,7 +225,7 @@ describe('logger', () => {
 
     log.issue('Found', { some: 'issue' }, error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)},`
       + `"cause":${JSON.stringify(error.cause.stack)}}\n`);
   });
@@ -237,7 +236,7 @@ describe('logger', () => {
 
     log.issue('Found', { some: 'issue' }, error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + '"data":{"some":"issue","code":"E_CODE"},'
       + `"stack":${JSON.stringify(error.stack)}}\n`);
   });
@@ -249,13 +248,13 @@ describe('logger', () => {
     const data = { some: 'issue' };
     log.issue('Found', data, error);
 
-    assert.deepEqual(data, { some: 'issue' });
+    assert.equals(data, { some: 'issue' });
   });
 
   it('logs data and error string', () => {
     log.issue('Found', { some: 'issue' }, 'Ouch!');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + '"data":{"some":"issue"},"stack":"Ouch!"}\n');
   });
 
@@ -272,7 +271,7 @@ describe('logger', () => {
     log.input('In');
     log.output('Out');
 
-    assert.deepEqual(entries, [
+    assert.equals(entries, [
       { ts: 123, ns: 'test', topic: 'input', msg: 'In' },
       { ts: 123, ns: 'test', topic: 'output', msg: 'Out' }
     ]);
@@ -282,20 +281,20 @@ describe('logger', () => {
     const a = logger('foo');
     const b = logger('foo');
 
-    assert.strictEqual(a, b);
+    assert.same(a, b);
   });
 
   it('logs only data', () => {
     log.fetch({ host: 'javascript.studio', path: '/' });
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"fetch","data":'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"fetch","data":'
       + '{"host":"javascript.studio","path":"/"}}\n');
   });
 
   it('logs only data and error', () => {
     log.issue({ id: 'studio' }, 'Oh!');
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"issue","data":'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","data":'
       + '{"id":"studio"},"stack":"Oh!"}\n');
   });
 
@@ -304,20 +303,20 @@ describe('logger', () => {
 
     log.error(error);
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"error",'
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
       + `"stack":${JSON.stringify(error.stack)}}\n`);
   });
 
   it('logs only meta data', () => {
     log.timing();
 
-    assert.equal(out, '{"ts":123,"ns":"test","topic":"timing"}\n');
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"timing"}\n');
   });
 
   it('logs base data', () => {
     logger('base', { base: 'data' }).ok('Text');
 
-    assert.equal(out, '{"ts":123,"ns":"base","topic":"ok","msg":"Text",'
+    assert.equals(out, '{"ts":123,"ns":"base","topic":"ok","msg":"Text",'
       + '"data":{"base":"data"}}\n');
   });
 
@@ -325,7 +324,7 @@ describe('logger', () => {
     logger('base', { base: 'data' });
     logger('base', { base: 'changed' }).ok('Text');
 
-    assert.equal(out, '{"ts":123,"ns":"base","topic":"ok","msg":"Text",'
+    assert.equals(out, '{"ts":123,"ns":"base","topic":"ok","msg":"Text",'
       + '"data":{"base":"changed"}}\n');
   });
 
@@ -334,7 +333,7 @@ describe('logger', () => {
     log.ok({ and: 7 });
     log.ok({ or: 42 }); // Verify "and" is not copied into the base data
 
-    assert.equal(out, ''
+    assert.equals(out, ''
       + '{"ts":123,"ns":"test","topic":"ok","data":{"base":"data","and":7}}\n'
       + '{"ts":123,"ns":"test","topic":"ok","data":{"base":"data","or":42}}\n');
   });
