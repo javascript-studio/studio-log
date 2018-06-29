@@ -1,0 +1,5 @@
+{
+  "browser": {
+    "stream": "@studio/browser-stream"
+  }
+}
