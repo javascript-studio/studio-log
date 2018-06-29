@@ -1,5 +1,43 @@
 # Changes
 
+## 2.0.0
+
+With this release, Studio Log becomes a tiny 3.3KB library. Formatters and the
+CLI have been moved to separate modules and with the new `console` format,
+Studio Log can be used in browsers too.
+
+The most important API change is the removal of the default transform.
+Updated examples of how to configure the logger can be found in the README.
+
+- 💥 [`3750908`](https://github.com/javascript-studio/studio-log/commit/37509087ea324ed19158431bd3eebf748c0b919b)
+  __BREAKING__: Slim down API
+
+    > - Change `out` to `pipe` and let it return the stream instead of the
+    >   logger.
+    > - Remove `transform`. Use stream pipes instead.
+    > - Remove `mute` and `muteAll`. Use a custom transform instead.
+    > - Remove `filter`. Use a custom trnasform instead.
+    > - Remove default transform. Add a serializing transform like Studio
+    >   ndjson to the pipeline yourself.
+
+- 💥 [`8da64cc`](https://github.com/javascript-studio/studio-log/commit/8da64cc19b7f36140ce07e456d1080753f41e010)
+  __BREAKING__: Extract format and CLI modules
+
+    > - Move topics into `@studio/log-topics` module
+    > - Move format into `@studio/log-format` module
+    > - Move emojilog into `@studio/emojilog` module
+
+- 📚 [`612f818`](https://github.com/javascript-studio/studio-log/commit/612f818ddf24c1953068df49497c44a5150ebe47)
+  Document v2.0 API changes
+- 📚 [`eca4548`](https://github.com/javascript-studio/studio-log/commit/eca4548ac425a3905b71a27b6f0068670077a815)
+  Improve "Transform streams" documentation
+- 📚 [`6096722`](https://github.com/javascript-studio/studio-log/commit/6096722f9f1616bf5bb089f7bf7d92a0bca2aef0)
+  Use new Studio Changes `--commits` feature
+- ✨ [`281934c`](https://github.com/javascript-studio/studio-log/commit/281934c63451728c0faca7180cc2e91ca0c014bf)
+  Add test runner for browser support
+- ✨ [`583ed68`](https://github.com/javascript-studio/studio-log/commit/583ed68e631344d40f9cf9c5624e2e6a1bea705c)
+  Use Sinon + Referee
+
 ## 1.7.5
 
 - 🐛 Adjust whitespace after emoji to be consistent
