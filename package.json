@@ -25,13 +25,13 @@
     "extends": "@studio"
   },
   "dependencies": {
-    "@studio/ndjson": "^1.2.0",
     "@studio/log-topics": "^1.0.0"
   },
   "devDependencies": {
     "@sinonjs/referee-sinon": "^3.0.0",
     "@studio/changes": "^1.5.0",
     "@studio/eslint-config": "^1.0.2",
+    "@studio/ndjson": "^1.2.0",
     "eslint": "^4.19.1",
     "mocha": "^5.2.0"
   },

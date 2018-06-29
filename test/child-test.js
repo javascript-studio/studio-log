@@ -3,6 +3,7 @@
 
 const { assert, sinon } = require('@sinonjs/referee-sinon');
 const { Writable } = require('stream');
+const Stringify = require('@studio/ndjson/stringify');
 const logger = require('..');
 
 describe('child', () => {
@@ -12,7 +13,7 @@ describe('child', () => {
   beforeEach(() => {
     out = '';
     clock = sinon.useFakeTimers();
-    logger.out(new Writable({
+    logger.pipe(new Stringify()).pipe(new Writable({
       write(chunk, enc, done) {
         out += chunk;
         done();

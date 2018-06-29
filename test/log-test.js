@@ -3,6 +3,7 @@
 
 const { assert, sinon } = require('@sinonjs/referee-sinon');
 const { Transform, Writable } = require('stream');
+const Stringify = require('@studio/ndjson/stringify');
 const logger = require('..');
 
 function MyError(message) {
@@ -21,7 +22,7 @@ describe('logger', () => {
   beforeEach(() => {
     out = '';
     clock = sinon.useFakeTimers();
-    logger.out(new Writable({
+    logger.pipe(new Stringify()).pipe(new Writable({
       write(chunk, enc, done) {
         out += chunk;
         done();
@@ -259,7 +260,7 @@ describe('logger', () => {
 
   it('uses the given transform stream to serialize entries', () => {
     const entries = [];
-    logger.transform(new Transform({
+    logger.pipe(new Transform({
       writableObjectMode: true,
       transform(entry, enc, done) {
         entries.push(entry);

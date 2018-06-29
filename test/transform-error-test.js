@@ -3,6 +3,7 @@
 
 const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
 const { Transform, Writable  } = require('stream');
+const Stringify = require('@studio/ndjson/stringify');
 const logger = require('..');
 
 describe('transform error', () => {
@@ -13,7 +14,7 @@ describe('transform error', () => {
   beforeEach(() => {
     out = '';
     clock = sinon.useFakeTimers();
-    logger.out(new Writable({
+    logger.pipe(new Stringify()).pipe(new Writable({
       write(chunk, enc, done) {
         out += chunk;
         done();
@@ -42,7 +43,7 @@ describe('transform error', () => {
   });
 
   it('handles recursive error', () => {
-    logger.transform(new Transform({
+    logger.pipe(new Transform({
       transform(chunk, enc, done) {
         done(new Error('Ouch!'));
       }

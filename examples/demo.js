@@ -5,7 +5,10 @@
  */
 'use strict';
 
-const logger = require('..').out(process.stdout);
+const logger = require('..');
+const Stringify = require('@studio/ndjson/stringify');
+
+logger.pipe(new Stringify()).pipe(process.stdout);
 
 const log = logger('Studio');
 

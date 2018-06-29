@@ -2,18 +2,10 @@
 'use strict';
 
 const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
-const { Transform } = require('stream');
+const Stringify = require('@studio/ndjson/stringify');
 const logger = require('..');
 
-const formatter = new Transform({
-  writableObjectMode: true,
-
-  transform(entry, enc, callback) {
-    callback(null, JSON.keys(entry));
-  }
-});
-
-describe('logger out', () => {
+describe('logger pipe', () => {
   let clock;
   let log;
 
@@ -29,27 +21,23 @@ describe('logger out', () => {
   });
 
   it('does not log to stdout by default', () => {
-    logger.transform(formatter);
+    logger.pipe(new Stringify());
 
     log.error(new Error('If you can see this, the test failed!'));
   });
 
   it('allows to pass "null" as output stream', () => {
     refute.exception(() => {
-      logger.out(null);
+      logger.pipe(null);
     });
   });
 
-  it('returns the logger', () => {
-    const r = logger.out(process.stdout);
+  it('returns the stream', () => {
+    const stream = new Stringify();
 
-    assert.same(r, logger);
-  });
+    const r = logger.pipe(stream);
 
-  it('returns the logger when setting transform', () => {
-    const r = logger.transform(formatter);
-
-    assert.same(r, logger);
+    assert.same(r, stream);
   });
 
   describe('hasStream', () => {
@@ -58,15 +46,15 @@ describe('logger out', () => {
       assert.isFalse(logger.hasStream());
     });
 
-    it('returns true after out was set', () => {
-      logger.out(process.stdout);
+    it('returns true after pipe was set', () => {
+      logger.pipe(new Stringify());
 
       assert.isTrue(logger.hasStream());
     });
 
-    it('returns false after out was set to null', () => {
-      logger.out(process.stdout);
-      logger.out(null);
+    it('returns false after pipe was set to null', () => {
+      logger.pipe(new Stringify());
+      logger.pipe(null);
 
       assert.isFalse(logger.hasStream());
     });
