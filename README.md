@@ -138,16 +138,13 @@ project.
 
 ## Transform streams
 
-Transform streams can be used to alter the data before passing it on. In the
-usage example above, `Stringify` and `Format` are transform streams.
-
-For example, [Studio Log X][7] is a Transform stream that can remove
-confidential properties from the log data and [Studio Log Format][6] project
-implements the `basic`, `fancy` and `console` pretty printers.
+Transform streams can be used to alter the data before passing it on. For
+example, [Studio Log X][7] is a Transform stream that can remove confidential
+data from the log data and [Studio Log Format][6] project implements the
+`basic`, `fancy` and `console` pretty printers.
 
 Format transforms are [node transform streams][3] in `writableObjectMode`. Here
-is an example transform implementation, similar to the [ndjson stringify
-transform][5]:
+is an example implementation, similar to the [ndjson stringify transform][5]:
 
 ```js
 const { Transform } = require('stream');
