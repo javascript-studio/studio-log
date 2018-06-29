@@ -2,8 +2,16 @@
 'use strict';
 
 const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
-const fancy_format = require('../format/fancy');
+const { Transform } = require('stream');
 const logger = require('..');
+
+const formatter = new Transform({
+  writableObjectMode: true,
+
+  transform(entry, enc, callback) {
+    callback(null, JSON.keys(entry));
+  }
+});
 
 describe('logger out', () => {
   let clock;
@@ -21,7 +29,7 @@ describe('logger out', () => {
   });
 
   it('does not log to stdout by default', () => {
-    logger.transform(fancy_format({ ts: false, ns: false }));
+    logger.transform(formatter);
 
     log.error(new Error('If you can see this, the test failed!'));
   });
@@ -39,7 +47,7 @@ describe('logger out', () => {
   });
 
   it('returns the logger when setting transform', () => {
-    const r = logger.transform(fancy_format());
+    const r = logger.transform(formatter);
 
     assert.same(r, logger);
   });

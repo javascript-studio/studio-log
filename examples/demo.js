@@ -27,7 +27,7 @@ log.fetch('Fetched', { ms: 42 });
 log.finish('Done');
 log.launch('Starting service', { name: 'Studio', ts_down_since: Date.now() });
 log.terminate('Killed service', { name: 'Studio', ts_started: Date.now() });
-log.spawn('Exciting tings');
+log.spawn('Exciting things');
 log.broadcast('Let the world know', { list: [1, 2, 3, 5, 8, 13, 21] });
 log.broadcast({ just: 'the', data: '!' });
 log.disk('Writing file', { path: '/foo/bar.txt' });

@@ -2,8 +2,7 @@
 'use strict';
 
 const { assert, refute, sinon } = require('@sinonjs/referee-sinon');
-const { Transform } = require('stream');
-const { Writable } = require('stream');
+const { Transform, Writable  } = require('stream');
 const logger = require('..');
 
 describe('transform error', () => {
