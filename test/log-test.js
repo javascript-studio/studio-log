@@ -329,9 +329,9 @@ describe('logger', () => {
   });
 
   it('mixes base data with log data', () => {
-    const log = logger('test', { base: 'data' });
-    log.ok({ and: 7 });
-    log.ok({ or: 42 }); // Verify "and" is not copied into the base data
+    const log_with_data = logger('test', { base: 'data' });
+    log_with_data.ok({ and: 7 });
+    log_with_data.ok({ or: 42 }); // Verify "and" is not copied into the base data
 
     assert.equals(out, ''
       + '{"ts":123,"ns":"test","topic":"ok","data":{"base":"data","and":7}}\n'
