@@ -28,7 +28,7 @@
     "@studio/log-topics": "^1.0.0"
   },
   "devDependencies": {
-    "@sinonjs/referee-sinon": "^4.0.0",
+    "@sinonjs/referee-sinon": "^10.1.0",
     "@studio/browser-stream": "^1.0.0",
     "@studio/changes": "^1.5.0",
     "@studio/eslint-config": "^2.3.0",
