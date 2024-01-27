@@ -1,0 +1,9 @@
+{
+  "extends": "@studio/tsconfig",
+  "compilerOptions": {
+    "lib": ["es2022"],
+    "types": ["node", "mocha"]
+  },
+  "include": ["**/*.js"],
+  "exclude": ["node_modules"]
+}

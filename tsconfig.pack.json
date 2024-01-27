@@ -1,0 +1,10 @@
+{
+  "extends": "@studio/tsconfig",
+  "compilerOptions": {
+    "types": ["node", "mocha"],
+    "declaration": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true
+  },
+  "include": ["lib/*.js"]
+}
