@@ -1,4 +1,4 @@
-/*eslint-env mocha*/
+/* eslint-disable n/no-extraneous-require */
 'use strict';
 
 const { Writable } = require('stream');
