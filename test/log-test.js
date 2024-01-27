@@ -1,8 +1,8 @@
 /*eslint-env mocha*/
 'use strict';
 
-const { assert, sinon } = require('@sinonjs/referee-sinon');
 const { Transform, Writable } = require('stream');
+const { assert, sinon } = require('@sinonjs/referee-sinon');
 const Stringify = require('@studio/ndjson/stringify');
 const logger = require('..');
 
