@@ -30,7 +30,7 @@
   "devDependencies": {
     "@sinonjs/referee-sinon": "^12.0.0",
     "@studio/browser-stream": "^1.0.0",
-    "@studio/changes": "^1.5.0",
+    "@studio/changes": "^3.0.0",
     "@studio/eslint-config": "^6.0.0",
     "@studio/ndjson": "^2.0.0",
     "eslint": "^8.56.0",
