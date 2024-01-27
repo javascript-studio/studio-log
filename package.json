@@ -7,9 +7,12 @@
     "lint": "eslint .",
     "test": "mocha && mochify",
     "watch": "mocha --watch",
-    "posttest": "npm run lint",
-    "preversion": "npm test",
-    "version": "changes --commits",
+    "build": "tsc --project tsconfig.pack.json",
+    "clean": "rimraf --glob 'lib/*.d.ts'",
+    "prepack": "npm run build",
+    "postpack": "npm run clean",
+    "preversion": "npm run lint && tsc && npm test",
+    "version": "changes --commits --footer",
     "postversion": "git push --follow-tags && npm publish"
   },
   "keywords": [
@@ -40,9 +43,12 @@
     "@studio/changes": "^3.0.0",
     "@studio/eslint-config": "^6.0.0",
     "@studio/ndjson": "^2.0.0",
+    "@studio/tsconfig": "^1.3.0",
     "esbuild": "^0.20.0",
     "eslint": "^8.56.0",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
   },
   "repository": {
     "type": "git",

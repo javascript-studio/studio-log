@@ -6,6 +6,11 @@ const { assert, sinon } = require('@sinonjs/referee-sinon');
 const Stringify = require('@studio/ndjson/stringify');
 const logger = require('..');
 
+/**
+ * @typedef {import('..').Logger} Logger
+ * @typedef {import('..').LogError} LogError
+ */
+
 function MyError(message) {
   this.name = 'MyError';
   this.message = message;
@@ -17,6 +22,7 @@ MyError.prototype.toString = function () {
 describe('logger', () => {
   let clock;
   let out;
+  /** @type {Logger} */
   let log;
 
   beforeEach(() => {
@@ -81,7 +87,7 @@ describe('logger', () => {
   });
 
   it('logs error with code', () => {
-    const error = new Error('Ouch!');
+    const error = /** @type {LogError} */ (new Error('Ouch!'));
     error.code = 'E_CODE';
 
     log.error('Oups', error);
@@ -92,7 +98,7 @@ describe('logger', () => {
 
   it('logs error cause with code', () => {
     const error = new Error('Ouch!');
-    const cause = new Error('Cause');
+    const cause = /** @type {LogError} */ (new Error('Cause'));
     cause.code = 'E_CODE';
     error.cause = cause;
 
@@ -106,7 +112,7 @@ describe('logger', () => {
 
   it('logs data with error cause with code', () => {
     const error = new Error('Ouch!');
-    const cause = new Error('Cause');
+    const cause = /** @type {LogError} */ (new Error('Cause'));
     cause.code = 'E_CODE';
     error.cause = cause;
 
@@ -122,6 +128,7 @@ describe('logger', () => {
 
   it('logs error cause with random properties', () => {
     const error = new Error('Ouch!');
+    /** @type {Object} */
     const cause = new Error('Cause');
     cause.random = 42;
     cause.property = true;
@@ -137,6 +144,7 @@ describe('logger', () => {
 
   it('logs error cause without name and message properties', () => {
     const error = new Error('Ouch!');
+    /** @type {Object} */
     const cause = new MyError('Cause');
     cause.random = 42;
     cause.property = true;
@@ -181,6 +189,20 @@ describe('logger', () => {
       + '"msg":"This went south","stack":"MyError: Cause"}\n');
   });
 
+  it('logs custom data object', () => {
+    function MyThing() {
+      this.is = 42;
+    }
+    MyThing.prototype.toString = function () {
+      return '[object MyThing]';
+    };
+
+    log.ok(new MyThing());
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"ok",'
+      + '"data":{"is":42}}\n');
+  });
+
   it('logs message with custom data object', () => {
     function MyThing() {
       this.is = 42;
@@ -219,7 +241,7 @@ describe('logger', () => {
   });
 
   it('logs data and error object with cause', () => {
-    const error = new Error('Ouch!');
+    const error = /** @type {LogError} */ (new Error('Ouch!'));
     const cause = new Error('Cause');
     error.cause = cause;
 
@@ -231,7 +253,7 @@ describe('logger', () => {
   });
 
   it('logs data and error object with code', () => {
-    const error = new Error('Ouch!');
+    const error = /** @type {LogError} */ (new Error('Ouch!'));
     error.code = 'E_CODE';
 
     log.issue('Found', { some: 'issue' }, error);
@@ -242,13 +264,22 @@ describe('logger', () => {
   });
 
   it('does not modify given data object if error code is present', () => {
-    const error = new Error('Ouch!');
+    const error = /** @type {LogError} */ (new Error('Ouch!'));
     error.code = 'E_CODE';
 
     const data = { some: 'issue' };
     log.issue('Found', data, error);
 
     assert.equals(data, { some: 'issue' });
+  });
+
+  it('logs data with custom toJSON', () => {
+    const data = { toJSON: () => ({ is: 42 }) };
+
+    log.numbers(data);
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"numbers",'
+      + '"data":{"is":42}}\n');
   });
 
   it('logs data and error string', () => {
@@ -338,4 +369,23 @@ describe('logger', () => {
       + '{"ts":123,"ns":"test","topic":"ok","data":{"base":"data","or":42}}\n');
   });
 
+  it('fails type check if first argument is error and second is string', () => {
+    const error = new Error('Ouch!');
+
+    // @ts-expect-error
+    log.error(error, 'Oups');
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
+      + `"stack":${JSON.stringify(error.stack)}}\n`);
+  });
+
+  it('fails type check if first argument is error and second is data', () => {
+    const error = new Error('Ouch!');
+
+    // @ts-expect-error
+    log.error(error, { the: 'things'});
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
+      + `"stack":${JSON.stringify(error.stack)}}\n`);
+  });
 });
