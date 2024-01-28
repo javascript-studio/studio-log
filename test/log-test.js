@@ -56,7 +56,16 @@ describe('logger', () => {
       + '"data":{"the":"things"}}\n');
   });
 
-  it('logs error', () => {
+  it('logs error without message', () => {
+    const error = new Error();
+
+    log.error('Oups', error);
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
+      + `"stack":${JSON.stringify(error.stack)}}\n`);
+  });
+
+  it('logs error with message', () => {
     const error = new Error('Ouch!');
 
     log.error('Oups', error);
@@ -224,11 +233,46 @@ describe('logger', () => {
       + '"data":{"name":"a","message":"b"}}\n');
   });
 
-  it('logs message with error-like object { name, message, stack }', () => {
-    log.error({ name: 'SomeError', message: 'b', stack: 'Some issue' });
+  it('logs error-like object { name, message, stack } with error in stack', () => {
+    const error = {
+      name: 'SyntaxError',
+      message: 'Ouch!',
+      stack: 'SyntaxError: Ouch!\n  at xyz:123'
+    };
+
+    log.error(error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
-      + '"stack":"Some issue"}\n');
+      + `"stack":"SyntaxError: Ouch!\\n  at xyz:123"}\n`);
+  });
+
+  it('logs error-like object { name, message }', () => {
+    const error = { name: 'SyntaxError', message: 'Ouch!' };
+
+    log.error('Test', {}, error);
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Test",'
+      + `"data":{},"stack":"SyntaxError: Ouch!"}\n`);
+  });
+
+  it('logs error-like object { name, message, stack } without error in stack', () => {
+    const error = { name: 'SyntaxError', message: 'Ouch!', stack: '  at xyz:123' };
+
+    log.error(error);
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
+      + `"stack":"SyntaxError: Ouch!\\n  at xyz:123"}\n`);
+  });
+
+  it('logs error-like cause { name, message, stack }', () => {
+    const error = new Error('Ouch!');
+    error.cause = { name: 'SyntaxError', message: 'Cause', stack: '  at xyz:123' };
+
+    log.error(error);
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
+      + `"stack":${JSON.stringify(error.stack)},`
+      + `"cause":"SyntaxError: Cause\\n  at xyz:123"}\n`);
   });
 
   it('logs data and error object', () => {
