@@ -1,5 +1,26 @@
 # Changes
 
+## 2.1.0
+
+- 🍏 [`45073bc`](https://github.com/javascript-studio/studio-log/commit/45073bc3f379cbe08985a559ce938de831bf7f79)
+  Always include error name and message in stack
+- 🍏 [`7b5934f`](https://github.com/javascript-studio/studio-log/commit/7b5934f403b03b2c7cddb30ad74777071b7fabe9)
+  Add typescript
+- 🐛  [`03e6a5f`](https://github.com/javascript-studio/studio-log/commit/03e6a5f1e3e681fcddd413e7cd3fe284c14c020f)
+  Remove broken error handler
+- ✨ [`dff39b6`](https://github.com/javascript-studio/studio-log/commit/dff39b62adcbb9a17752fbc70a2995df966b6c58)
+  Use new mochify with esbuild and upgrade mocha
+- ✨ [`2b22838`](https://github.com/javascript-studio/studio-log/commit/2b22838e00b7502295b7a2ec3eed1cf9f3b79218)
+  Add GitHub action
+- ✨ [`05886d9`](https://github.com/javascript-studio/studio-log/commit/05886d9e2cc6a7fb9ee0746b7f9c50443045011b)
+  Upgrade Studio Changes
+- ✨ [`770dc13`](https://github.com/javascript-studio/studio-log/commit/770dc138d3b0b2189aa0548905899cc5da6f8d95)
+  Upgrade referee-sinon
+- ✨ [`eb54bac`](https://github.com/javascript-studio/studio-log/commit/eb54bac12923f67cd155cc463209366392e7c3e2)
+  Upgrade eslint config and update eslint
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-01-28._
+
 ## 2.0.0
 
 With this release, Studio Log becomes a tiny 3.3KB library. Formatters and the
