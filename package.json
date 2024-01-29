@@ -1,6 +1,6 @@
 {
   "name": "@studio/log",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A tiny streaming ndJSON logger",
   "main": "lib/log.js",
   "scripts": {

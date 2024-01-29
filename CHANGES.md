@@ -1,5 +1,14 @@
 # Changes
 
+## 2.1.2
+
+- 🐛 [`b786cbd`](https://github.com/javascript-studio/studio-log/commit/b786cbdffe9b064a200e21337e41fa8f1b4dae39)
+  Handle weird errors in stack helper
+- 🐛 [`112e615`](https://github.com/javascript-studio/studio-log/commit/112e615f0d9179993b99128de79ba543def341d3)
+  Fix test in Safari
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-01-29._
+
 ## 2.1.1
 
 - 🐛 [`88a50b7`](https://github.com/javascript-studio/studio-log/commit/88a50b7bc02b9e19dd73e4264445371b6cdee3b7)
