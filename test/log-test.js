@@ -459,11 +459,13 @@ describe('logger', () => {
 
     it('includes error message if name is missing, but message is in the stack', () => {
       const error = new TypeError('Ouch!');
+      const lines = error.stack ? error.stack.split('\n').slice(1) : [];
+      lines.unshift(`Uncaught: ${error.message}`);
+
       // @ts-expect-error
       const stack = logger.stack({
         message: error.message,
-        stack: error.stack ? error.stack.replace(String(error),
-          `Uncaught: ${error.message}`) : ''
+        stack: lines.join('\n')
       });
 
       assert.isTrue(stack.startsWith('Uncaught: Ouch!\n'), stack);
