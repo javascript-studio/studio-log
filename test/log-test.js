@@ -62,7 +62,7 @@ describe('logger', () => {
     log.error('Oups', error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
-      + `"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))}}\n`);
   });
 
   it('logs error with message', () => {
@@ -71,7 +71,7 @@ describe('logger', () => {
     log.error('Oups', error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
-      + `"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))}}\n`);
   });
 
   it('logs error with cause', () => {
@@ -82,8 +82,8 @@ describe('logger', () => {
     log.error('Oups', error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
-      + `"stack":${JSON.stringify(error.stack)},`
-      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))},`
+      + `"cause":${JSON.stringify(logger.stack(cause))}}\n`);
   });
 
   it('logs error object toString with numeric cause', () => {
@@ -102,7 +102,7 @@ describe('logger', () => {
     log.error('Oups', error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
-      + `"data":{"code":"E_CODE"},"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"data":{"code":"E_CODE"},"stack":${JSON.stringify(logger.stack(error))}}\n`);
   });
 
   it('logs error cause with code', () => {
@@ -115,8 +115,8 @@ describe('logger', () => {
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + '"data":{"cause":{"code":"E_CODE"}},'
-      + `"stack":${JSON.stringify(error.stack)},`
-      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))},`
+      + `"cause":${JSON.stringify(logger.stack(cause))}}\n`);
   });
 
   it('logs data with error cause with code', () => {
@@ -130,8 +130,8 @@ describe('logger', () => {
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
       + '"data":{"some":"data","cause":{"code":"E_CODE"}},'
-      + `"stack":${JSON.stringify(error.stack)},`
-      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))},`
+      + `"cause":${JSON.stringify(logger.stack(cause))}}\n`);
     assert.equals(data, { some: 'data' }); // Verify not modified
   });
 
@@ -147,8 +147,8 @@ describe('logger', () => {
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + '"data":{"cause":{"random":42,"property":true}},'
-      + `"stack":${JSON.stringify(error.stack)},`
-      + `"cause":${JSON.stringify(cause.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))},`
+      + `"cause":${JSON.stringify(logger.stack(cause))}}\n`);
   });
 
   it('logs error cause without name and message properties', () => {
@@ -163,7 +163,7 @@ describe('logger', () => {
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       + '"data":{"cause":{"random":42,"property":true}},'
-      + `"stack":${JSON.stringify(error.stack)},`
+      + `"stack":${JSON.stringify(logger.stack(error))},`
       + `"cause":"${cause.toString()}"}\n`);
   });
 
@@ -176,7 +176,7 @@ describe('logger', () => {
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
       // Note: No "data" property
-      + `"stack":${JSON.stringify(error.stack)},`
+      + `"stack":${JSON.stringify(logger.stack(error))},`
       + `"cause":"${cause.toString()}"}\n`);
   });
 
@@ -187,7 +187,7 @@ describe('logger', () => {
     log.error('Oups', error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error","msg":"Oups",'
-      + `"stack":${JSON.stringify(error.stack)},`
+      + `"stack":${JSON.stringify(logger.stack(error))},`
       + '"cause":"Simple string cause"}\n');
   });
 
@@ -271,7 +271,7 @@ describe('logger', () => {
     log.error(error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
-      + `"stack":${JSON.stringify(error.stack)},`
+      + `"stack":${JSON.stringify(logger.stack(error))},`
       + `"cause":"SyntaxError: Cause\\n  at xyz:123"}\n`);
   });
 
@@ -281,7 +281,7 @@ describe('logger', () => {
     log.issue('Found', { some: 'issue' }, error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
-      + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"data":{"some":"issue"},"stack":${JSON.stringify(logger.stack(error))}}\n`);
   });
 
   it('logs data and error object with cause', () => {
@@ -292,8 +292,8 @@ describe('logger', () => {
     log.issue('Found', { some: 'issue' }, error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
-      + `"data":{"some":"issue"},"stack":${JSON.stringify(error.stack)},`
-      + `"cause":${JSON.stringify(error.cause.stack)}}\n`);
+      + `"data":{"some":"issue"},"stack":${JSON.stringify(logger.stack(error))},`
+      + `"cause":${JSON.stringify(logger.stack(error.cause))}}\n`);
   });
 
   it('logs data and error object with code', () => {
@@ -304,7 +304,7 @@ describe('logger', () => {
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"issue","msg":"Found",'
       + '"data":{"some":"issue","code":"E_CODE"},'
-      + `"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))}}\n`);
   });
 
   it('does not modify given data object if error code is present', () => {
@@ -379,7 +379,7 @@ describe('logger', () => {
     log.error(error);
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
-      + `"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))}}\n`);
   });
 
   it('logs only meta data', () => {
@@ -420,7 +420,7 @@ describe('logger', () => {
     log.error(error, 'Oups');
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
-      + `"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))}}\n`);
   });
 
   it('fails type check if first argument is error and second is data', () => {
@@ -430,6 +430,20 @@ describe('logger', () => {
     log.error(error, { the: 'things'});
 
     assert.equals(out, '{"ts":123,"ns":"test","topic":"error",'
-      + `"stack":${JSON.stringify(error.stack)}}\n`);
+      + `"stack":${JSON.stringify(logger.stack(error))}}\n`);
+  });
+
+  context('stack', () => {
+    it('includes error name', () => {
+      const stack = logger.stack(new TypeError());
+
+      assert.match(stack, 'TypeError');
+    });
+
+    it('includes error name and message', () => {
+      const stack = logger.stack(new TypeError('Ouch!'));
+
+      assert.match(stack, 'TypeError: Ouch!');
+    });
   });
 });
