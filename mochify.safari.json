@@ -1,0 +1,11 @@
+{
+  "driver": "webdriver",
+  "driver_options": {
+    "hostname": "localhost",
+    "path": "/",
+    "port": 4444,
+    "capabilities": {
+      "browserName": "safari"
+    }
+  }
+}
