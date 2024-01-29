@@ -445,5 +445,16 @@ describe('logger', () => {
 
       assert.match(stack, 'TypeError: Ouch!');
     });
+
+    it('includes error message if name is missing', () => {
+      const error = new TypeError('Ouch!');
+      // @ts-expect-error
+      const stack = logger.stack({
+        message: error.message,
+        stack: error.stack ? error.stack.replace(`${String(error)}\n`, '') : ''
+      });
+
+      assert.match(stack, 'Ouch!');
+    });
   });
 });
