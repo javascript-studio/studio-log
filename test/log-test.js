@@ -454,7 +454,29 @@ describe('logger', () => {
         stack: error.stack ? error.stack.replace(`${String(error)}\n`, '') : ''
       });
 
-      assert.match(stack, 'Ouch!');
+      assert.isTrue(stack.startsWith('Ouch!\n'), stack);
+    });
+
+    it('includes error message if name is missing, but message is in the stack', () => {
+      const error = new TypeError('Ouch!');
+      // @ts-expect-error
+      const stack = logger.stack({
+        message: error.message,
+        stack: error.stack ? error.stack.replace(String(error),
+          `Uncaught: ${error.message}`) : ''
+      });
+
+      assert.isTrue(stack.startsWith('Uncaught: Ouch!\n'), stack);
+    });
+
+    it('does not prepend [object Object]', () => {
+      const error = new TypeError('Ouch!');
+      // @ts-expect-error
+      const stack = logger.stack({
+        stack: error.stack
+      });
+
+      assert.equals(stack, error.stack);
     });
   });
 });
