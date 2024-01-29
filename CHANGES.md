@@ -1,5 +1,16 @@
 # Changes
 
+## 2.1.1
+
+- 🐛 [`88a50b7`](https://github.com/javascript-studio/studio-log/commit/88a50b7bc02b9e19dd73e4264445371b6cdee3b7)
+  Include error message in stack if name is missing
+- ✨ [`8510c8f`](https://github.com/javascript-studio/studio-log/commit/8510c8fe0c3da4777809d3919736453358e52364)
+  Run tests with local safari
+- ✨ [`318c73b`](https://github.com/javascript-studio/studio-log/commit/318c73bbdc16e681a77e6f1fb77521da6ddc8e34)
+  Expose stack helper on logger
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-01-29._
+
 ## 2.1.0
 
 - 🍏 [`45073bc`](https://github.com/javascript-studio/studio-log/commit/45073bc3f379cbe08985a559ce938de831bf7f79)
