@@ -28,7 +28,6 @@ describe('logger pipe', () => {
 
   it('allows to pass "null" as output stream', () => {
     refute.exception(() => {
-      // @ts-expect-error
       logger.pipe(null);
     });
   });
@@ -55,7 +54,6 @@ describe('logger pipe', () => {
 
     it('returns false after pipe was set to null', () => {
       logger.pipe(new Stringify());
-      // @ts-expect-error
       logger.pipe(null);
 
       assert.isFalse(logger.hasStream());
