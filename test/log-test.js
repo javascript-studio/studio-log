@@ -413,6 +413,26 @@ describe('logger', () => {
       + '{"ts":123,"ns":"test","topic":"ok","data":{"base":"data","or":42}}\n');
   });
 
+  it('includes base data when logging error only', () => {
+    const log_with_data = logger('test', { base: 'data' });
+    const error = new Error();
+    log_with_data.issue(error);
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"issue",'
+     + `"data":{"base":"data"},"stack":${JSON.stringify(logger.stack(error))}}\n`);
+  });
+
+  it('mixes base data with error code', () => {
+    const log_with_data = logger('test', { base: 'data' });
+    const error = /** @type {LogError} */ (new Error());
+    error.code = 'E_CODE';
+    log_with_data.issue(error);
+
+    assert.equals(out, '{"ts":123,"ns":"test","topic":"issue",'
+     + '"data":{"base":"data","code":"E_CODE"},"stack":'
+     + `${JSON.stringify(logger.stack(error))}}\n`);
+  });
+
   it('fails type check if first argument is error and second is string', () => {
     const error = new Error('Ouch!');
 
