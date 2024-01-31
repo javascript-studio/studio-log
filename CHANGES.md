@@ -1,5 +1,16 @@
 # Changes
 
+## 2.1.3
+
+- 🐛 [`3dbde57`](https://github.com/javascript-studio/studio-log/commit/3dbde57028ee262a35adc43d3671dbd920c5df55)
+  Allow stream to be null
+- 🐛 [`d23708a`](https://github.com/javascript-studio/studio-log/commit/d23708abe22b4744b6af537d1e8400f2e6a71f8b)
+  Improve log error typing
+- 🐛 [`de9d125`](https://github.com/javascript-studio/studio-log/commit/de9d12587c57a7733d38eaf80761a7fbdcc9070c)
+  Fix missing base data when logging error only
+
+_Released by [Maximilian Antoni](https://github.com/mantoni) on 2024-01-31._
+
 ## 2.1.2
 
 - 🐛 [`b786cbd`](https://github.com/javascript-studio/studio-log/commit/b786cbdffe9b064a200e21337e41fa8f1b4dae39)
