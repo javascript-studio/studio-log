@@ -468,7 +468,7 @@ describe('logger', () => {
 
     it('includes error message if name is missing', () => {
       const error = new TypeError('Ouch!');
-      // @ts-expect-error
+
       const stack = logger.stack({
         message: error.message,
         stack: error.stack ? error.stack.replace(`${String(error)}\n`, '') : ''
@@ -482,7 +482,6 @@ describe('logger', () => {
       const lines = error.stack ? error.stack.split('\n').slice(1) : [];
       lines.unshift(`Uncaught: ${error.message}`);
 
-      // @ts-expect-error
       const stack = logger.stack({
         message: error.message,
         stack: lines.join('\n')
@@ -491,9 +490,9 @@ describe('logger', () => {
       assert.isTrue(stack.startsWith('Uncaught: Ouch!\n'), stack);
     });
 
-    it('does not prepend [object Object]', () => {
+    it('support error with stack property only', () => {
       const error = new TypeError('Ouch!');
-      // @ts-expect-error
+
       const stack = logger.stack({
         stack: error.stack
       });
